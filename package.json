@@ -8,6 +8,7 @@
     "build:prod": "NODE_ENV=production cogen && next build",
     "export": "cogen && next build && next export",
     "start": "next start",
+    "deploy": "docker-compose up --build -d",
     "lint": "next lint"
   },
   "dependencies": {

@@ -1,0 +1,7 @@
+version: '3'
+services:
+  web:
+    build: .
+    container_name: loco-web
+    ports:
+      - '3000:3000'

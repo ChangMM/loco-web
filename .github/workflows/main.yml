@@ -29,5 +29,5 @@ jobs:
       - name: rsync over ssh
 
         run: |
-          rsync -avz ./ root@1.14.165.196:/root/loco
-          ssh root@1.14.165.196 "cd /root/loco/server && npm run deploy"
+          rsync -avz ./ root@1.14.165.196:/root/loco-web
+          ssh root@1.14.165.196 "cd /root/loco-web && npm run deploy"
