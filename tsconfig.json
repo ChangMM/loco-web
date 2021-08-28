@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "paths": {
+      "@utils/*": ["utils/*"],
+      "@config/*": ["config/*"],
+      "@assets/*": ["assets/*"],
+      "@services/*": ["services/*"],
+      "@stores/*": ["stores/*"],
+      "@generated/*": ["generated/*"],
+      "@common/*": ["common/*"],
+      "@bone-ui/*": ["bone-ui/*"],
+      "@hooks/*": ["hooks/*"],
+      "@layouts/*": ["layouts/*"],
+      "@components/*": ["components/*"],
+      "@modals/*": ["modals/*"],
+      "@drawers/*": ["drawers/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}

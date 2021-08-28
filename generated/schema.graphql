@@ -1,0 +1,6243 @@
+"""权限操作类型"""
+enum Action {
+  Create
+  Read
+  Update
+  Delete
+  Manage
+}
+
+"""创建Table列"""
+input AddColumnInput {
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """列的名字"""
+  name: String!
+
+  """配置"""
+  config: ColumnConfigInput
+}
+
+"""添加成员"""
+input AddMemberInput {
+  """团队ID"""
+  teamId: String!
+
+  """用户ID"""
+  userId: Int!
+
+  """角色类型"""
+  roleType: RoleType!
+}
+
+"""创建Table行"""
+input AddRowInput {
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+}
+
+"""添加一行 with data"""
+input AddRowWithDataInput {
+  """表格ID"""
+  tableId: String!
+
+  """单元格数据"""
+  cells: [CellWithDataInput!]!
+}
+
+"""新建表格"""
+input AddTableInput {
+  """ID"""
+  id: String!
+
+  """团队ID"""
+  teamId: String!
+
+  """用户ID"""
+  userId: Int!
+
+  """名字"""
+  name: String!
+}
+
+"""添加团队"""
+input AddTeamInput {
+  """名字"""
+  name: String!
+}
+
+"""创建"""
+input AddVersionInput {
+  """表格ID"""
+  tableId: String!
+
+  """名字"""
+  name: String!
+}
+
+"""创建视图"""
+input AddViewInput {
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """名字"""
+  name: String!
+
+  """类型"""
+  type: ViewType!
+
+  """看板基准列"""
+  stackedColumnId: String
+}
+
+"""一个单元格"""
+type Cell {
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """列ID"""
+  columnId: String!
+
+  """行ID"""
+  rowId: String!
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """单元格数据"""
+  data: CellData
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """该单元格的选项"""
+  options: [Option!]
+}
+
+"""聚合查询"""
+type CellAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""单元格数据，类型为 string|number|boolean|array|null"""
+scalar CellData
+
+"""筛选条件"""
+input CellWhereInput {
+  """列ID"""
+  columnId: String!
+
+  """行ID"""
+  rowId: String
+
+  """字段类型"""
+  fieldType: FieldType
+}
+
+"""新增Cell"""
+input CellWithDataInput {
+  """列ID"""
+  columnId: String!
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """单元格数据"""
+  data: CellData
+}
+
+"""connection"""
+type CellsConnection {
+  items: [Cell!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""表格协作者"""
+type Collaborator {
+  id: Int!
+
+  """表格ID"""
+  tableId: String!
+
+  """用户ID"""
+  userId: Int!
+
+  """角色ID"""
+  roleId: Int!
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """user"""
+  user: User!
+}
+
+"""聚合查询"""
+type CollaboratorAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input CollaboratorWhereInput {
+  """ID"""
+  id: Int
+
+  """表格ID"""
+  tableId: String!
+
+  """用户ID"""
+  userId: Int!
+}
+
+"""connection"""
+type CollaboratorsConnection {
+  items: [Collaborator!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""列数据"""
+type Column {
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """是否是主列"""
+  isPrimary: Boolean
+
+  """配置"""
+  config: ColumnConfig
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """option"""
+  options: [Option!]!
+}
+
+"""聚合查询"""
+type ColumnAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""列配置"""
+type ColumnConfig {
+  """@LongText, 是否开启富文本"""
+  useRichText: Boolean
+
+  """@Collaborator, 是否可以多个"""
+  multiCollaborator: Boolean
+
+  """@Collaborator, 是否需要通知"""
+  shouldNotify: Boolean
+
+  """@Date, 日期格式"""
+  dateFormat: DateFormat
+
+  """@Date, 时间格式"""
+  timeFormat: TimeFormat
+
+  """@Date, 包含时间"""
+  includeTime: Boolean
+}
+
+"""列配置"""
+input ColumnConfigInput {
+  """@LongText, 是否开启富文本"""
+  useRichText: Boolean
+
+  """@Collaborator, 是否可以多个"""
+  multiCollaborator: Boolean
+
+  """@Collaborator, 是否需要通知"""
+  shouldNotify: Boolean
+
+  """@Date, 日期格式"""
+  dateFormat: DateFormat
+
+  """@Date, 时间格式"""
+  timeFormat: TimeFormat
+
+  """@Date, 包含时间"""
+  includeTime: Boolean
+}
+
+"""筛选条件"""
+input ColumnWhereInput {
+  """表格ID"""
+  tableId: String!
+}
+
+"""connection"""
+type ColumnsConnection {
+  items: [Column!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""评论表"""
+type Comment {
+  id: Int
+
+  """用户id"""
+  userId: Int
+
+  """根评论id"""
+  rootId: Int
+
+  """父级id"""
+  parentId: Int
+
+  """内容"""
+  content: String
+
+  """备注"""
+  remark: String
+
+  """状态"""
+  status: CommentStatus
+
+  """点赞数"""
+  likeCount: Int
+
+  """图片,多url用逗号分隔,eg：url1,url2,url3"""
+  images: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  user: User
+  parentComment: Comment
+}
+
+"""聚合查询"""
+type CommentAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""评论状态"""
+enum CommentStatus {
+  isNull
+  notAudited
+  auditSuccess
+  auditFail
+  nonsense
+}
+
+"""筛选条件"""
+input CommentWhereInput {
+  """用户ID"""
+  id: Int
+
+  """状态"""
+  status: CommentStatus
+
+  """用户id"""
+  userId: Int
+
+  """在状态中筛选"""
+  status_in: [CommentStatus!]
+
+  """根评论id"""
+  rootId: Int
+}
+
+"""connection"""
+type CommentsConnection {
+  items: [Comment!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""筛选连接类型"""
+enum ConjunctionType {
+  Or
+  And
+}
+
+"""创建"""
+input CreateCellInput {
+  """列ID"""
+  columnId: String!
+
+  """行ID"""
+  rowId: String!
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """单元格数据"""
+  data: String
+}
+
+"""创建"""
+input CreateCollaboratorInput {
+  """表格ID"""
+  tableId: String!
+
+  """用户ID"""
+  userId: Int!
+}
+
+"""创建"""
+input CreateColumnInput {
+  """名字"""
+  name: String!
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """是否是主列"""
+  isPrimary: Boolean
+
+  """是否可见"""
+  visible: Boolean
+
+  """描述"""
+  description: String
+
+  """排序"""
+  sort: Int
+}
+
+"""创建"""
+input CreateCommentInput {
+  """剧本id"""
+  scriptId: Int
+
+  """用户id"""
+  userId: Int
+
+  """父级id"""
+  parentId: Int
+
+  """根评论id"""
+  rootId: Int
+
+  """内容"""
+  content: String
+
+  """图片,多url用逗号分隔,eg：url1,url2,url3"""
+  images: String
+}
+
+"""创建"""
+input CreateFeedbackInput {
+  """id"""
+  userId: Int
+
+  """标题"""
+  title: String!
+
+  """反馈内容"""
+  content: String
+
+  """联系方式"""
+  contact: String!
+
+  """图片,多url用逗号分隔,eg：url1,url2,url3"""
+  images: String
+}
+
+"""创建筛选"""
+input CreateFilterInput {
+  """ID"""
+  id: String!
+
+  """列ID"""
+  columnId: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """视图ID"""
+  viewId: String!
+
+  """筛选连接类型"""
+  conjunction: ConjunctionType!
+
+  """操作类型"""
+  operator: OperatorType!
+
+  """字段类型"""
+  fieldType: FieldType!
+}
+
+"""创建"""
+input CreateGroupInput {
+  """列ID"""
+  columnId: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """视图ID"""
+  viewId: String!
+
+  """是否升序"""
+  ascending: Boolean!
+
+  """ID"""
+  id: String!
+}
+
+"""创建"""
+input CreateInvitationTokenInput {
+  """团队ID"""
+  teamId: String!
+}
+
+"""创建"""
+input CreateMemberInput {
+  """团队ID"""
+  teamId: String!
+
+  """用户ID"""
+  userId: Int!
+}
+
+"""创建选项"""
+input CreateOptionInput {
+  """ID"""
+  id: String!
+
+  """列ID"""
+  columnId: String!
+
+  """名字"""
+  name: String!
+
+  """颜色"""
+  color: String!
+}
+
+"""创建"""
+input CreateOrgInput {
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """头像"""
+  avatar: String!
+}
+
+"""创建"""
+input CreateOrgUserInput {
+  """用户ID"""
+  userId: Int!
+}
+
+"""创建"""
+input CreatePermissionInput {
+  """权限名称"""
+  name: String
+
+  """权限码"""
+  code: String
+}
+
+"""创建"""
+input CreateRoleInput {
+  """角色名"""
+  name: RoleType!
+}
+
+"""创建"""
+input CreateRolePermissionInput {
+  """权限ID"""
+  permissionId: Int
+
+  """角色ID"""
+  roleId: Int
+}
+
+"""创建"""
+input CreateRowInput {
+  """表格ID"""
+  tableId: String!
+
+  """排序"""
+  sortBaseTable: Int
+}
+
+"""创建"""
+input CreateSortInput {
+  """列ID"""
+  columnId: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """视图ID"""
+  viewId: String!
+
+  """是否升序"""
+  ascending: Boolean!
+
+  """ID"""
+  id: String!
+}
+
+"""创建"""
+input CreateTableInput {
+  """ID"""
+  id: String!
+
+  """团队ID"""
+  teamId: String!
+
+  """名字"""
+  name: String!
+}
+
+"""创建"""
+input CreateTeamInput {
+  """创建者用户ID"""
+  creatorId: Int!
+
+  """所有者ID"""
+  ownerId: Int!
+
+  """唯一用户名"""
+  login: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """头像"""
+  avatar: String!
+
+  """是否公开"""
+  public: Boolean!
+}
+
+"""创建"""
+input CreateUserInput {
+  username: String!
+  nickname: String!
+}
+
+"""创建"""
+input CreateVersionInput {
+  """表格ID"""
+  tableId: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+}
+
+"""创建"""
+input CreateVersionedCellInput {
+  """列ID"""
+  columnId: String!
+
+  """行ID"""
+  rowId: String!
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """单元格数据"""
+  data: String
+}
+
+"""创建"""
+input CreateVersionedColumnInput {
+  """名字"""
+  name: String!
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """是否是主列"""
+  isPrimary: Boolean
+
+  """是否可见"""
+  visible: Boolean
+
+  """描述"""
+  description: String
+
+  """排序"""
+  sort: Int
+}
+
+"""创建选项"""
+input CreateVersionedOptionInput {
+  """ID"""
+  id: String!
+
+  """列ID"""
+  columnId: String!
+
+  """名字"""
+  name: String!
+
+  """颜色"""
+  color: String!
+}
+
+"""创建"""
+input CreateVersionedRowInput {
+  """表格ID"""
+  tableId: String!
+
+  """排序"""
+  sortBaseTable: Int
+}
+
+"""创建"""
+input CreateViewColumnInput {
+  """列ID"""
+  columnId: String
+
+  """表格ID"""
+  tableId: String!
+
+  """视图ID"""
+  viewId: String!
+
+  """宽度"""
+  width: Int
+
+  """是否可见"""
+  visible: Boolean
+}
+
+"""创建"""
+input CreateViewInput {
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """类型"""
+  type: ViewType!
+}
+
+"""创建"""
+input CreateVisitInput {
+  """最近访问的 teamId"""
+  teamId: String!
+
+  """最近访问的 tableId"""
+  tableId: String!
+
+  """最近访问的viewId"""
+  viewId: String!
+
+  """视图类型"""
+  viewType: ViewType
+}
+
+enum DateFormat {
+  Slash
+  Line
+  Friendly
+  Us
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+"""删除"""
+input DeleteCellInput {
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteCollaboratorInput {
+  """表格ID"""
+  tableId: String!
+
+  """用户ID"""
+  userId: Int!
+
+  """ID"""
+  id: Int
+}
+
+"""删除"""
+input DeleteColumnInput {
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteCommentInput {
+  """剧本id"""
+  scriptId: Int
+
+  """用户id"""
+  userId: Int
+
+  """父级id"""
+  parentId: Int
+
+  """根评论id"""
+  rootId: Int
+
+  """内容"""
+  content: String
+
+  """ID"""
+  id: Int
+}
+
+"""删除"""
+input DeleteFeedbackInput {
+  """id"""
+  userId: Int
+
+  """标题"""
+  title: String!
+
+  """反馈内容"""
+  content: String
+
+  """联系方式"""
+  contact: String!
+
+  """图片,多url用逗号分隔,eg：url1,url2,url3"""
+  images: String
+
+  """id"""
+  id: Int
+}
+
+"""删除"""
+input DeleteFilterInput {
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteGroupInput {
+  """ID"""
+  id: String!
+}
+
+"""删除成员"""
+input DeleteInvitationTokenInput {
+  """ID"""
+  id: Float!
+}
+
+"""删除成员"""
+input DeleteMemberInput {
+  """member ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteOptionInput {
+  """名字"""
+  name: String
+
+  """颜色"""
+  color: String
+
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteOrgInput {
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """头像"""
+  avatar: String!
+
+  """ID"""
+  id: String!
+}
+
+"""删除成员"""
+input DeleteOrgUserInput {
+  """member ID"""
+  id: String!
+}
+
+"""删除"""
+input DeletePermissionInput {
+  """权限名称"""
+  name: String
+
+  """权限码"""
+  code: String
+
+  """ID"""
+  id: Int
+}
+
+"""删除"""
+input DeleteRoleInput {
+  """角色名"""
+  name: RoleType!
+
+  """ID"""
+  id: Int
+}
+
+"""删除"""
+input DeleteRolePermissionInput {
+  """权限ID"""
+  permissionId: Int
+
+  """角色ID"""
+  roleId: Int
+
+  """ID"""
+  id: Int
+}
+
+"""删除"""
+input DeleteRowInput {
+  """表格ID"""
+  tableId: String!
+
+  """排序"""
+  sortBaseTable: Int
+
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteSortInput {
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteTableInput {
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteTeamInput {
+  """创建者用户ID"""
+  creatorId: Int!
+
+  """所有者ID"""
+  ownerId: Int!
+
+  """唯一用户名"""
+  login: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """头像"""
+  avatar: String!
+
+  """是否公开"""
+  public: Boolean!
+
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteUserInput {
+  username: String!
+  nickname: String!
+
+  """id"""
+  id: Int
+}
+
+"""删除"""
+input DeleteVersionInput {
+  """ID"""
+  id: Float!
+}
+
+"""删除"""
+input DeleteVersionedCellInput {
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteVersionedColumnInput {
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteVersionedOptionInput {
+  """名字"""
+  name: String
+
+  """颜色"""
+  color: String
+
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteVersionedRowInput {
+  """表格ID"""
+  tableId: String!
+
+  """排序"""
+  sortBaseTable: Int
+
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteViewColumnInput {
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteViewInput {
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input DeleteVisitInput {
+  """ID"""
+  id: Float!
+}
+
+"""退出团队"""
+input ExitTeamInput {
+  """member ID"""
+  id: String!
+}
+
+"""反馈"""
+type Feedback {
+  id: Int!
+
+  """id"""
+  userId: Int
+
+  """标题"""
+  title: String!
+
+  """反馈内容"""
+  content: String
+
+  """联系方式"""
+  contact: String!
+
+  """图片,多url用逗号分隔,eg：url1,url2,url3"""
+  images: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  user: User!
+}
+
+"""聚合查询"""
+type FeedbackAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input FeedbackWhereInput {
+  """id"""
+  id: Int
+}
+
+"""connection"""
+type FeedbacksConnection {
+  items: [Feedback!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""字段类型"""
+enum FieldType {
+  Locale
+  Key
+  Namespace
+  SingleLineText
+  LongText
+  Collaborator
+  SingleSelect
+  CreatedAt
+  UpdatedAt
+  CreatedBy
+  LastUpdatedBy
+}
+
+"""筛选"""
+type Filter {
+  """ID"""
+  id: String!
+
+  """列ID"""
+  columnId: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """视图ID"""
+  viewId: String!
+
+  """筛选连接类型"""
+  conjunction: ConjunctionType!
+
+  """操作类型"""
+  operator: OperatorType!
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """值"""
+  value: String!
+
+  """排序"""
+  sortBaseView: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type FilterAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input FilterWhereInput {
+  """视图ID"""
+  viewId: String!
+}
+
+"""connection"""
+type FiltersConnection {
+  items: [Filter!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""分组"""
+type Group {
+  """ID"""
+  id: String!
+
+  """列ID"""
+  columnId: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """视图ID"""
+  viewId: String!
+
+  """是否升序"""
+  ascending: Boolean!
+
+  """是否显示空分组"""
+  showEmptyGroup: Boolean!
+
+  """排序"""
+  sortBaseView: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type GroupAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input GroupWhereInput {
+  """视图ID"""
+  viewId: String!
+}
+
+"""connection"""
+type GroupsConnection {
+  items: [Group!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""邀请链接Token"""
+type InvitationToken {
+  """ID"""
+  id: Float!
+
+  """团队ID"""
+  teamId: String!
+
+  """角色类型"""
+  roleType: RoleType!
+
+  """token"""
+  token: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type InvitationTokenAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input InvitationTokenWhereInput {
+  """团队"""
+  teamId: String!
+}
+
+"""connection"""
+type InvitationTokensConnection {
+  items: [InvitationToken!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""行高类型"""
+enum LeadingType {
+  Short
+  Medium
+  Tall
+  ExtraTall
+}
+
+"""邮箱登录"""
+input LoginByEmailInput {
+  """邮箱"""
+  email: String!
+
+  """密码"""
+  password: String!
+}
+
+"""登录成功返回给客户端的数据"""
+type LoginSuccessPayload {
+  token: String!
+  userId: Int!
+  username: String
+  user: User!
+  visit: Visit!
+}
+
+"""成员"""
+type Member {
+  """ID"""
+  id: String!
+
+  """团队ID"""
+  teamId: String!
+
+  """用户ID"""
+  userId: Int!
+
+  """角色ID"""
+  roleId: Int!
+
+  """在团队中显示的昵称"""
+  nickname: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """user"""
+  user: User!
+
+  """role"""
+  role: Role!
+}
+
+"""聚合查询"""
+type MemberAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input MemberWhereInput {
+  """团队"""
+  teamId: String
+
+  """用户ID"""
+  userId: Int
+}
+
+"""connection"""
+type MembersConnection {
+  items: [Member!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""更新Cell"""
+input ModifyCellInput {
+  """列ID"""
+  columnId: String!
+
+  """行ID"""
+  rowId: String!
+
+  """单元格数据"""
+  data: CellData
+}
+
+"""修改列"""
+input ModifyColumnInput {
+  """ID"""
+  id: String!
+
+  """字段类型"""
+  fieldType: FieldType
+
+  """列的名字"""
+  name: String
+
+  """描述"""
+  description: String
+
+  """配置"""
+  config: ColumnConfigInput
+}
+
+"""修改成员角色类型"""
+input ModifyMemberRoleTypeInput {
+  """member ID"""
+  id: String!
+
+  """角色类型"""
+  roleType: RoleType!
+}
+
+"""修改秘密"""
+input ModifyPasswordInput {
+  """旧密码"""
+  oldPassword: String!
+
+  """新密码"""
+  newPassword: String!
+}
+
+"""修改行数据"""
+input ModifyRowInput {
+  """单元格数据"""
+  cells: [ModifyCellInput!]!
+}
+
+"""修改visit数据"""
+input ModifyVisitInput {
+  """最近访问的 teamId"""
+  teamId: String!
+
+  """最近访问的 tableId"""
+  tableId: String!
+
+  """最近访问的viewId"""
+  viewId: String!
+
+  """视图类型"""
+  viewType: ViewType
+
+  """ID"""
+  id: Float!
+}
+
+type Mutation {
+  """创建"""
+  createCell(input: CreateCellInput!): Cell!
+
+  """更新单个"""
+  updateCell(input: UpdateCellInput!): Cell!
+
+  """批量更新"""
+  updateManyCells(input: UpdateManyCellInput!): Boolean!
+
+  """更新或创建"""
+  upsertCell(input: UpsertCellInput!): Cell!
+
+  """删除单个"""
+  deleteCell(input: DeleteCellInput!): Boolean!
+
+  """批量删除"""
+  deleteManyCell(input: DeleteCellInput!): Boolean!
+
+  """创建"""
+  createCollaborator(input: CreateCollaboratorInput!): Collaborator!
+
+  """更新单个"""
+  updateCollaborator(input: UpdateCollaboratorInput!): Collaborator!
+
+  """批量更新"""
+  updateManyCollaborators(input: UpdateManyCollaboratorInput!): Boolean!
+
+  """更新或创建"""
+  upsertCollaborator(input: UpsertCollaboratorInput!): Collaborator!
+
+  """删除单个"""
+  deleteCollaborator(input: DeleteCollaboratorInput!): Boolean!
+
+  """批量删除"""
+  deleteManyCollaborator(input: DeleteCollaboratorInput!): Boolean!
+
+  """创建"""
+  createColumn(input: CreateColumnInput!): Column!
+
+  """更新单个"""
+  updateColumn(input: UpdateColumnInput!): Column!
+
+  """批量更新"""
+  updateManyColumns(input: UpdateManyColumnInput!): Boolean!
+
+  """更新或创建"""
+  upsertColumn(input: UpsertColumnInput!): Column!
+
+  """删除单个"""
+  deleteColumn(input: DeleteColumnInput!): Boolean!
+
+  """批量删除"""
+  deleteManyColumn(input: DeleteColumnInput!): Boolean!
+
+  """创建"""
+  createComment(input: CreateCommentInput!): Comment!
+
+  """更新单个"""
+  updateComment(input: UpdateCommentInput!): Comment!
+
+  """批量更新"""
+  updateManyComments(input: UpdateManyCommentInput!): Boolean!
+
+  """更新或创建"""
+  upsertComment(input: UpsertCommentInput!): Comment!
+
+  """删除单个"""
+  deleteComment(input: DeleteCommentInput!): Boolean!
+
+  """批量删除"""
+  deleteManyComment(input: DeleteCommentInput!): Boolean!
+
+  """创建"""
+  createFeedback(input: CreateFeedbackInput!): Feedback!
+
+  """更新单个"""
+  updateFeedback(input: UpdateFeedbackInput!): Feedback!
+
+  """批量更新"""
+  updateManyFeedbacks(input: UpdateManyFeedbackInput!): Boolean!
+
+  """更新或创建"""
+  upsertFeedback(input: UpsertFeedbackInput!): Feedback!
+
+  """删除单个"""
+  deleteFeedback(input: DeleteFeedbackInput!): Boolean!
+
+  """批量删除"""
+  deleteManyFeedback(input: DeleteFeedbackInput!): Boolean!
+
+  """创建"""
+  createFilter(input: CreateFilterInput!): Filter!
+
+  """更新单个"""
+  updateFilter(input: UpdateFilterInput!): Filter!
+
+  """批量更新"""
+  updateManyFilters(input: UpdateManyFilterInput!): Boolean!
+
+  """更新或创建"""
+  upsertFilter(input: UpsertFilterInput!): Filter!
+
+  """删除单个"""
+  deleteFilter(input: DeleteFilterInput!): Boolean!
+
+  """批量删除"""
+  deleteManyFilter(input: DeleteFilterInput!): Boolean!
+
+  """排序"""
+  sortFilters(input: SortFiltersInput!): Boolean!
+
+  """创建"""
+  createGroup(input: CreateGroupInput!): Group!
+
+  """更新单个"""
+  updateGroup(input: UpdateGroupInput!): Group!
+
+  """批量更新"""
+  updateManyGroups(input: UpdateManyGroupInput!): Boolean!
+
+  """更新或创建"""
+  upsertGroup(input: UpsertGroupInput!): Group!
+
+  """删除单个"""
+  deleteGroup(input: DeleteGroupInput!): Boolean!
+
+  """批量删除"""
+  deleteManyGroup(input: DeleteGroupInput!): Boolean!
+
+  """排序"""
+  sortGroups(input: SortGroupsInput!): Boolean!
+
+  """创建"""
+  createInvitationToken(input: CreateInvitationTokenInput!): InvitationToken!
+
+  """更新单个"""
+  updateInvitationToken(input: UpdateInvitationTokenInput!): InvitationToken!
+
+  """批量更新"""
+  updateManyInvitationTokens(input: UpdateManyInvitationTokenInput!): Boolean!
+
+  """更新或创建"""
+  upsertInvitationToken(input: UpsertInvitationTokenInput!): InvitationToken!
+
+  """删除单个"""
+  deleteInvitationToken(input: DeleteInvitationTokenInput!): Boolean!
+
+  """批量删除"""
+  deleteManyInvitationToken(input: DeleteInvitationTokenInput!): Boolean!
+
+  """创建"""
+  createMember(input: CreateMemberInput!): Member!
+
+  """更新单个"""
+  updateMember(input: UpdateMemberInput!): Member!
+
+  """批量更新"""
+  updateManyMembers(input: UpdateManyMemberInput!): Boolean!
+
+  """更新或创建"""
+  upsertMember(input: UpsertMemberInput!): Member!
+
+  """删除单个"""
+  deleteMember(input: DeleteMemberInput!): Boolean!
+
+  """批量删除"""
+  deleteManyMember(input: DeleteMemberInput!): Boolean!
+
+  """创建"""
+  createOption(input: CreateOptionInput!): Option!
+
+  """更新单个"""
+  updateOption(input: UpdateOptionInput!): Option!
+
+  """批量更新"""
+  updateManyOptions(input: UpdateManyOptionInput!): Boolean!
+
+  """更新或创建"""
+  upsertOption(input: UpsertOptionInput!): Option!
+
+  """删除单个"""
+  deleteOption(input: DeleteOptionInput!): Boolean!
+
+  """批量删除"""
+  deleteManyOption(input: DeleteOptionInput!): Boolean!
+
+  """排序"""
+  sortOptions(input: SortOptionsInput!): Boolean!
+
+  """创建"""
+  createOrg(input: CreateOrgInput!): Org!
+
+  """更新单个"""
+  updateOrg(input: UpdateOrgInput!): Org!
+
+  """批量更新"""
+  updateManyOrgs(input: UpdateManyOrgInput!): Boolean!
+
+  """更新或创建"""
+  upsertOrg(input: UpsertOrgInput!): Org!
+
+  """删除单个"""
+  deleteOrg(input: DeleteOrgInput!): Boolean!
+
+  """批量删除"""
+  deleteManyOrg(input: DeleteOrgInput!): Boolean!
+
+  """创建"""
+  createOrgUser(input: CreateOrgUserInput!): OrgUser!
+
+  """更新单个"""
+  updateOrgUser(input: UpdateOrgUserInput!): OrgUser!
+
+  """批量更新"""
+  updateManyOrgUsers(input: UpdateManyOrgUserInput!): Boolean!
+
+  """更新或创建"""
+  upsertOrgUser(input: UpsertOrgUserInput!): OrgUser!
+
+  """删除单个"""
+  deleteOrgUser(input: DeleteOrgUserInput!): Boolean!
+
+  """批量删除"""
+  deleteManyOrgUser(input: DeleteOrgUserInput!): Boolean!
+
+  """创建"""
+  createPermission(input: CreatePermissionInput!): Permission!
+
+  """更新单个"""
+  updatePermission(input: UpdatePermissionInput!): Permission!
+
+  """批量更新"""
+  updateManyPermissions(input: UpdateManyPermissionInput!): Boolean!
+
+  """更新或创建"""
+  upsertPermission(input: UpsertPermissionInput!): Permission!
+
+  """删除单个"""
+  deletePermission(input: DeletePermissionInput!): Boolean!
+
+  """批量删除"""
+  deleteManyPermission(input: DeletePermissionInput!): Boolean!
+
+  """创建"""
+  createRole(input: CreateRoleInput!): Role!
+
+  """更新单个"""
+  updateRole(input: UpdateRoleInput!): Role!
+
+  """批量更新"""
+  updateManyRoles(input: UpdateManyRoleInput!): Boolean!
+
+  """更新或创建"""
+  upsertRole(input: UpsertRoleInput!): Role!
+
+  """删除单个"""
+  deleteRole(input: DeleteRoleInput!): Boolean!
+
+  """批量删除"""
+  deleteManyRole(input: DeleteRoleInput!): Boolean!
+
+  """创建"""
+  createRolePermission(input: CreateRolePermissionInput!): RolePermission!
+
+  """更新单个"""
+  updateRolePermission(input: UpdateRolePermissionInput!): RolePermission!
+
+  """批量更新"""
+  updateManyRolePermissions(input: UpdateManyRolePermissionInput!): Boolean!
+
+  """更新或创建"""
+  upsertRolePermission(input: UpsertRolePermissionInput!): RolePermission!
+
+  """删除单个"""
+  deleteRolePermission(input: DeleteRolePermissionInput!): Boolean!
+
+  """批量删除"""
+  deleteManyRolePermission(input: DeleteRolePermissionInput!): Boolean!
+
+  """创建"""
+  createRow(input: CreateRowInput!): Row!
+
+  """更新单个"""
+  updateRow(input: UpdateRowInput!): Row!
+
+  """批量更新"""
+  updateManyRows(input: UpdateManyRowInput!): Boolean!
+
+  """更新或创建"""
+  upsertRow(input: UpsertRowInput!): Row!
+
+  """删除单个"""
+  deleteRow(input: DeleteRowInput!): Boolean!
+
+  """批量删除"""
+  deleteManyRow(input: DeleteRowInput!): Boolean!
+
+  """排序"""
+  sortRows(input: SortRowsInput!): Boolean!
+
+  """创建"""
+  createSort(input: CreateSortInput!): Sort!
+
+  """更新单个"""
+  updateSort(input: UpdateSortInput!): Sort!
+
+  """批量更新"""
+  updateManySorts(input: UpdateManySortInput!): Boolean!
+
+  """更新或创建"""
+  upsertSort(input: UpsertSortInput!): Sort!
+
+  """删除单个"""
+  deleteSort(input: DeleteSortInput!): Boolean!
+
+  """批量删除"""
+  deleteManySort(input: DeleteSortInput!): Boolean!
+
+  """排序"""
+  sortSorts(input: SortSortsInput!): Boolean!
+
+  """创建"""
+  createTable(input: CreateTableInput!): Table!
+
+  """更新单个"""
+  updateTable(input: UpdateTableInput!): Table!
+
+  """批量更新"""
+  updateManyTables(input: UpdateManyTableInput!): Boolean!
+
+  """更新或创建"""
+  upsertTable(input: UpsertTableInput!): Table!
+
+  """删除单个"""
+  deleteTable(input: DeleteTableInput!): Boolean!
+
+  """批量删除"""
+  deleteManyTable(input: DeleteTableInput!): Boolean!
+
+  """排序"""
+  sortTables(input: SortTablesInput!): Boolean!
+
+  """创建"""
+  createTeam(input: CreateTeamInput!): Team!
+
+  """更新单个"""
+  updateTeam(input: UpdateTeamInput!): Team!
+
+  """批量更新"""
+  updateManyTeams(input: UpdateManyTeamInput!): Boolean!
+
+  """更新或创建"""
+  upsertTeam(input: UpsertTeamInput!): Team!
+
+  """删除单个"""
+  deleteTeam(input: DeleteTeamInput!): Boolean!
+
+  """批量删除"""
+  deleteManyTeam(input: DeleteTeamInput!): Boolean!
+
+  """创建"""
+  createUser(input: CreateUserInput!): User!
+
+  """更新单个"""
+  updateUser(input: UpdateUserInput!): User!
+
+  """批量更新"""
+  updateManyUsers(input: UpdateManyUserInput!): Boolean!
+
+  """更新或创建"""
+  upsertUser(input: UpsertUserInput!): User!
+
+  """删除单个"""
+  deleteUser(input: DeleteUserInput!): Boolean!
+
+  """批量删除"""
+  deleteManyUser(input: DeleteUserInput!): Boolean!
+
+  """创建"""
+  createVersion(input: CreateVersionInput!): Version!
+
+  """更新单个"""
+  updateVersion(input: UpdateVersionInput!): Version!
+
+  """批量更新"""
+  updateManyVersions(input: UpdateManyVersionInput!): Boolean!
+
+  """更新或创建"""
+  upsertVersion(input: UpsertVersionInput!): Version!
+
+  """删除单个"""
+  deleteVersion(input: DeleteVersionInput!): Boolean!
+
+  """批量删除"""
+  deleteManyVersion(input: DeleteVersionInput!): Boolean!
+
+  """排序"""
+  sortVersions(input: SortVersionsInput!): Boolean!
+
+  """创建"""
+  createVersionedCell(input: CreateVersionedCellInput!): VersionedCell!
+
+  """更新单个"""
+  updateVersionedCell(input: UpdateVersionedCellInput!): VersionedCell!
+
+  """批量更新"""
+  updateManyVersionedCells(input: UpdateManyVersionedCellInput!): Boolean!
+
+  """更新或创建"""
+  upsertVersionedCell(input: UpsertVersionedCellInput!): VersionedCell!
+
+  """删除单个"""
+  deleteVersionedCell(input: DeleteVersionedCellInput!): Boolean!
+
+  """批量删除"""
+  deleteManyVersionedCell(input: DeleteVersionedCellInput!): Boolean!
+
+  """创建"""
+  createVersionedColumn(input: CreateVersionedColumnInput!): VersionedColumn!
+
+  """更新单个"""
+  updateVersionedColumn(input: UpdateVersionedColumnInput!): VersionedColumn!
+
+  """批量更新"""
+  updateManyVersionedColumns(input: UpdateManyVersionedColumnInput!): Boolean!
+
+  """更新或创建"""
+  upsertVersionedColumn(input: UpsertVersionedColumnInput!): VersionedColumn!
+
+  """删除单个"""
+  deleteVersionedColumn(input: DeleteVersionedColumnInput!): Boolean!
+
+  """批量删除"""
+  deleteManyVersionedColumn(input: DeleteVersionedColumnInput!): Boolean!
+
+  """创建"""
+  createVersionedOption(input: CreateVersionedOptionInput!): VersionedOption!
+
+  """更新单个"""
+  updateVersionedOption(input: UpdateVersionedOptionInput!): VersionedOption!
+
+  """批量更新"""
+  updateManyVersionedOptions(input: UpdateManyVersionedOptionInput!): Boolean!
+
+  """更新或创建"""
+  upsertVersionedOption(input: UpsertVersionedOptionInput!): VersionedOption!
+
+  """删除单个"""
+  deleteVersionedOption(input: DeleteVersionedOptionInput!): Boolean!
+
+  """批量删除"""
+  deleteManyVersionedOption(input: DeleteVersionedOptionInput!): Boolean!
+
+  """创建"""
+  createVersionedRow(input: CreateVersionedRowInput!): VersionedRow!
+
+  """更新单个"""
+  updateVersionedRow(input: UpdateVersionedRowInput!): VersionedRow!
+
+  """批量更新"""
+  updateManyVersionedRows(input: UpdateManyVersionedRowInput!): Boolean!
+
+  """更新或创建"""
+  upsertVersionedRow(input: UpsertVersionedRowInput!): VersionedRow!
+
+  """删除单个"""
+  deleteVersionedRow(input: DeleteVersionedRowInput!): Boolean!
+
+  """批量删除"""
+  deleteManyVersionedRow(input: DeleteVersionedRowInput!): Boolean!
+
+  """排序"""
+  sortVersionedRows(input: SortVersionedRowsInput!): Boolean!
+
+  """创建"""
+  createView(input: CreateViewInput!): View!
+
+  """更新单个"""
+  updateView(input: UpdateViewInput!): View!
+
+  """批量更新"""
+  updateManyViews(input: UpdateManyViewInput!): Boolean!
+
+  """更新或创建"""
+  upsertView(input: UpsertViewInput!): View!
+
+  """删除单个"""
+  deleteView(input: DeleteViewInput!): Boolean!
+
+  """批量删除"""
+  deleteManyView(input: DeleteViewInput!): Boolean!
+
+  """排序"""
+  sortViews(input: SortViewsInput!): Boolean!
+
+  """创建"""
+  createViewColumn(input: CreateViewColumnInput!): ViewColumn!
+
+  """更新单个"""
+  updateViewColumn(input: UpdateViewColumnInput!): ViewColumn!
+
+  """批量更新"""
+  updateManyViewColumns(input: UpdateManyViewColumnInput!): Boolean!
+
+  """更新或创建"""
+  upsertViewColumn(input: UpsertViewColumnInput!): ViewColumn!
+
+  """删除单个"""
+  deleteViewColumn(input: DeleteViewColumnInput!): Boolean!
+
+  """批量删除"""
+  deleteManyViewColumn(input: DeleteViewColumnInput!): Boolean!
+
+  """排序"""
+  sortViewColumns(input: SortViewColumnsInput!): Boolean!
+
+  """创建"""
+  createVisit(input: CreateVisitInput!): Visit!
+
+  """更新单个"""
+  updateVisit(input: UpdateVisitInput!): Visit!
+
+  """批量更新"""
+  updateManyVisits(input: UpdateManyVisitInput!): Boolean!
+
+  """更新或创建"""
+  upsertVisit(input: UpsertVisitInput!): Visit!
+
+  """删除单个"""
+  deleteVisit(input: DeleteVisitInput!): Boolean!
+
+  """批量删除"""
+  deleteManyVisit(input: DeleteVisitInput!): Boolean!
+
+  """使用Github登录"""
+  loginByGithub(code: String!): LoginSuccessPayload!
+
+  """邮箱注册"""
+  registerByEmail(input: RegisterByEmailInput!): LoginSuccessPayload!
+
+  """邮箱登录"""
+  loginByEmail(input: LoginByEmailInput!): LoginSuccessPayload!
+
+  """更新单元格"""
+  modifyCell(input: ModifyCellInput!): Boolean!
+
+  """新增Table列"""
+  addColumn(input: AddColumnInput!): Column!
+
+  """删除Table列"""
+  removeColumn(input: RemoveColumnInput!): Boolean!
+
+  """修改列"""
+  modifyColumn(input: ModifyColumnInput!): Boolean!
+
+  """手动初始化 invitation token，不在实际业务中使用"""
+  genInvitationToken(teamId: String!): Boolean!
+
+  """添加成员"""
+  addMember(input: AddMemberInput!): Member!
+
+  """修改角色类型"""
+  modifyMemberRoleType(input: ModifyMemberRoleTypeInput!): Boolean!
+
+  """删除成员，只有管理员以上才能操作"""
+  removeMember(input: RemoveMemberInput!): Boolean!
+
+  """退出团队"""
+  exitTeam(input: ExitTeamInput!): Boolean!
+
+  """新增Table行"""
+  addRow(input: AddRowInput!): Row!
+
+  """新增带有数据的行"""
+  addRowWithData(input: AddRowWithDataInput!): Row!
+
+  """新增Table行"""
+  modifyRow(input: ModifyRowInput!): Boolean!
+
+  """删除Table行"""
+  removeRow(input: RemoveRowInput!): Boolean!
+
+  """创建Table"""
+  addTable(input: AddTableInput!): Table!
+
+  """删除Table"""
+  removeTable(input: RemoveTableInput!): Boolean!
+
+  """最近访问"""
+  setAsLastVisited(input: SetAsLastVisitedInput!): Boolean!
+
+  """新增团队"""
+  addTeam(input: AddTeamInput!): Team!
+
+  """修改密码"""
+  modifyPassword(input: ModifyPasswordInput!): Boolean!
+
+  """新增版本"""
+  addVersion(input: AddVersionInput!): Version!
+
+  """新增视图"""
+  addView(input: AddViewInput!): View!
+
+  """删除视图"""
+  removeView(input: RemoveViewInput!): Boolean!
+
+  """修改visit"""
+  modifyVisit(input: ModifyVisitInput!): Boolean!
+}
+
+"""操作类型"""
+enum OperatorType {
+  IsEmpty
+  IsNotEmpt
+  Contains
+  DoesNotContain
+  Is
+  IsNot
+  Equal
+  NotEqual
+  LessThan
+  MoreThan
+  LessThanOrEqual
+  MoreThanOrEqual
+  Filename
+  Filetype
+}
+
+"""选项"""
+type Option {
+  """ID"""
+  id: String!
+
+  """列ID"""
+  columnId: String!
+
+  """名字"""
+  name: String!
+
+  """颜色"""
+  color: String!
+
+  """基于列排序"""
+  sortBaseColumn: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type OptionAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input OptionWhereInput {
+  """id"""
+  id: Int
+}
+
+"""connection"""
+type OptionsConnection {
+  items: [Option!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""组织"""
+type Org {
+  """ID"""
+  id: String!
+
+  """创建者用户ID"""
+  creatorId: Int!
+
+  """所有者ID"""
+  ownerId: Int!
+
+  """短网址"""
+  slug: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """头像"""
+  avatar: String!
+
+  """quarterly, year..."""
+  billing: String!
+  googleSsoOnly: Boolean!
+  samlSsoOnly: Boolean!
+
+  """逾期时间"""
+  accountTypeChangedAt: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type OrgAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""组织用户表"""
+type OrgUser {
+  """ID"""
+  id: String!
+
+  """团队ID"""
+  orgId: String!
+
+  """用户ID"""
+  userId: Int!
+
+  """账户类型"""
+  accountType: String!
+
+  """账户类型变化时间"""
+  accountTypeChangedAt: DateTime
+
+  """账户权限，admin,member,readonly..."""
+  permission: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type OrgUserAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input OrgUserWhereInput {
+  """用户ID"""
+  userId: Int!
+}
+
+"""connection"""
+type OrgUsersConnection {
+  items: [OrgUser!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""筛选条件"""
+input OrgWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""connection"""
+type OrgsConnection {
+  items: [Org!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""权限表"""
+type Permission {
+  id: Int!
+
+  """权限名称"""
+  name: String
+
+  """权限码"""
+  code: String
+
+  """权限描述"""
+  desc: String
+
+  """权限操作类型"""
+  action: Action
+
+  """主题"""
+  subject: String
+
+  """条件"""
+  conditions: String
+
+  """属性"""
+  fields: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type PermissionAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input PermissionWhereInput {
+  """ID"""
+  id: Int
+}
+
+"""connection"""
+type PermissionsConnection {
+  items: [Permission!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+type Query {
+  """获取单个"""
+  cell(
+    """ID"""
+    id: String!
+  ): Cell!
+
+  """获取列表"""
+  cells(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: CellWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Cell!]!
+
+  """获取分页列表"""
+  cellsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: CellWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): CellsConnection!
+
+  """聚合查询"""
+  cellAggregate(
+    """筛选条件"""
+    where: CellWhereInput
+  ): CellAggregate!
+
+  """获取单个"""
+  collaborator(
+    """ID"""
+    id: Int!
+  ): Collaborator!
+
+  """获取列表"""
+  collaborators(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: CollaboratorWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Collaborator!]!
+
+  """获取分页列表"""
+  collaboratorsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: CollaboratorWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): CollaboratorsConnection!
+
+  """聚合查询"""
+  collaboratorAggregate(
+    """筛选条件"""
+    where: CollaboratorWhereInput
+  ): CollaboratorAggregate!
+
+  """获取单个"""
+  column(
+    """ID"""
+    id: String!
+  ): Column!
+
+  """获取列表"""
+  columns(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: ColumnWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Column!]!
+
+  """获取分页列表"""
+  columnsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: ColumnWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): ColumnsConnection!
+
+  """聚合查询"""
+  columnAggregate(
+    """筛选条件"""
+    where: ColumnWhereInput
+  ): ColumnAggregate!
+
+  """获取单个"""
+  comment(
+    """ID"""
+    id: Int
+  ): Comment!
+
+  """获取列表"""
+  comments(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: CommentWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Comment!]!
+
+  """获取分页列表"""
+  commentsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: CommentWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): CommentsConnection!
+
+  """聚合查询"""
+  commentAggregate(
+    """筛选条件"""
+    where: CommentWhereInput
+  ): CommentAggregate!
+
+  """获取单个"""
+  feedback(
+    id: Int!
+
+    """id"""
+    userId: Int
+
+    """标题"""
+    title: String!
+
+    """反馈内容"""
+    content: String
+
+    """联系方式"""
+    contact: String!
+
+    """图片,多url用逗号分隔,eg：url1,url2,url3"""
+    images: String
+  ): Feedback!
+
+  """获取列表"""
+  feedbacks(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: FeedbackWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Feedback!]!
+
+  """获取分页列表"""
+  feedbacksConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: FeedbackWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): FeedbacksConnection!
+
+  """聚合查询"""
+  feedbackAggregate(
+    """筛选条件"""
+    where: FeedbackWhereInput
+  ): FeedbackAggregate!
+
+  """获取单个"""
+  filter(
+    """ID"""
+    id: String!
+  ): Filter!
+
+  """获取列表"""
+  filters(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: FilterWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Filter!]!
+
+  """获取分页列表"""
+  filtersConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: FilterWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): FiltersConnection!
+
+  """聚合查询"""
+  filterAggregate(
+    """筛选条件"""
+    where: FilterWhereInput
+  ): FilterAggregate!
+
+  """获取单个"""
+  group(
+    """ID"""
+    id: String!
+  ): Group!
+
+  """获取列表"""
+  groups(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: GroupWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Group!]!
+
+  """获取分页列表"""
+  groupsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: GroupWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): GroupsConnection!
+
+  """聚合查询"""
+  groupAggregate(
+    """筛选条件"""
+    where: GroupWhereInput
+  ): GroupAggregate!
+
+  """获取单个"""
+  invitationToken(
+    """ID"""
+    id: Float!
+  ): InvitationToken!
+
+  """获取列表"""
+  invitationTokens(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: InvitationTokenWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [InvitationToken!]!
+
+  """获取分页列表"""
+  invitationTokensConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: InvitationTokenWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): InvitationTokensConnection!
+
+  """聚合查询"""
+  invitationTokenAggregate(
+    """筛选条件"""
+    where: InvitationTokenWhereInput
+  ): InvitationTokenAggregate!
+
+  """获取单个"""
+  member(
+    """ID"""
+    id: String!
+  ): Member!
+
+  """获取列表"""
+  members(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: MemberWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Member!]!
+
+  """获取分页列表"""
+  membersConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: MemberWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): MembersConnection!
+
+  """聚合查询"""
+  memberAggregate(
+    """筛选条件"""
+    where: MemberWhereInput
+  ): MemberAggregate!
+
+  """获取单个"""
+  option(
+    """列ID"""
+    columnId: String!
+  ): Option!
+
+  """获取列表"""
+  options(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: OptionWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Option!]!
+
+  """获取分页列表"""
+  optionsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: OptionWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): OptionsConnection!
+
+  """聚合查询"""
+  optionAggregate(
+    """筛选条件"""
+    where: OptionWhereInput
+  ): OptionAggregate!
+
+  """获取单个"""
+  org(
+    """ID"""
+    id: String
+  ): Org!
+
+  """获取列表"""
+  orgs(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: OrgWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Org!]!
+
+  """获取分页列表"""
+  orgsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: OrgWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): OrgsConnection!
+
+  """聚合查询"""
+  orgAggregate(
+    """筛选条件"""
+    where: OrgWhereInput
+  ): OrgAggregate!
+
+  """获取单个"""
+  orgUser(
+    """ID"""
+    id: String!
+  ): OrgUser!
+
+  """获取列表"""
+  orgUsers(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: OrgUserWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [OrgUser!]!
+
+  """获取分页列表"""
+  orgUsersConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: OrgUserWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): OrgUsersConnection!
+
+  """聚合查询"""
+  orgUserAggregate(
+    """筛选条件"""
+    where: OrgUserWhereInput
+  ): OrgUserAggregate!
+
+  """获取单个"""
+  permission(
+    """ID"""
+    id: Int!
+  ): Permission!
+
+  """获取列表"""
+  permissions(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: PermissionWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Permission!]!
+
+  """获取分页列表"""
+  permissionsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: PermissionWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): PermissionsConnection!
+
+  """聚合查询"""
+  permissionAggregate(
+    """筛选条件"""
+    where: PermissionWhereInput
+  ): PermissionAggregate!
+
+  """获取单个"""
+  role(
+    """ID"""
+    id: Int!
+  ): Role!
+
+  """获取列表"""
+  roles(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: RoleWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Role!]!
+
+  """获取分页列表"""
+  rolesConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: RoleWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): RolesConnection!
+
+  """聚合查询"""
+  roleAggregate(
+    """筛选条件"""
+    where: RoleWhereInput
+  ): RoleAggregate!
+
+  """获取单个"""
+  rolePermission(
+    """ID"""
+    id: Int!
+  ): RolePermission!
+
+  """获取列表"""
+  rolePermissions(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: RolePermissionWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [RolePermission!]!
+
+  """获取分页列表"""
+  rolePermissionsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: RolePermissionWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): RolePermissionsConnection!
+
+  """聚合查询"""
+  rolePermissionAggregate(
+    """筛选条件"""
+    where: RolePermissionWhereInput
+  ): RolePermissionAggregate!
+
+  """获取单个"""
+  row(
+    """ID"""
+    id: String!
+  ): Row!
+
+  """获取列表"""
+  rows(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: RowWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Row!]!
+
+  """获取分页列表"""
+  rowsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: RowWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): RowsConnection!
+
+  """聚合查询"""
+  rowAggregate(
+    """筛选条件"""
+    where: RowWhereInput
+  ): RowAggregate!
+
+  """获取单个"""
+  sort(
+    """ID"""
+    id: String!
+  ): Sort!
+
+  """获取列表"""
+  sorts(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: SortWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Sort!]!
+
+  """获取分页列表"""
+  sortsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: SortWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): SortsConnection!
+
+  """聚合查询"""
+  sortAggregate(
+    """筛选条件"""
+    where: SortWhereInput
+  ): SortAggregate!
+
+  """获取单个"""
+  table(
+    """ID"""
+    id: String!
+  ): Table!
+
+  """获取列表"""
+  tables(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: TableWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Table!]!
+
+  """获取分页列表"""
+  tablesConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: TableWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): TablesConnection!
+
+  """聚合查询"""
+  tableAggregate(
+    """筛选条件"""
+    where: TableWhereInput
+  ): TableAggregate!
+
+  """获取单个"""
+  team(
+    """ID"""
+    id: String
+
+    """短网址"""
+    slug: String
+  ): Team!
+
+  """获取列表"""
+  teams(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: TeamWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Team!]!
+
+  """获取分页列表"""
+  teamsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: TeamWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): TeamsConnection!
+
+  """聚合查询"""
+  teamAggregate(
+    """筛选条件"""
+    where: TeamWhereInput
+  ): TeamAggregate!
+
+  """获取单个"""
+  user(
+    """ID"""
+    id: Int
+    username: String
+    nickname: String
+  ): User!
+
+  """获取列表"""
+  users(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: UserWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [User!]!
+
+  """获取分页列表"""
+  usersConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: UserWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): UsersConnection!
+
+  """聚合查询"""
+  userAggregate(
+    """筛选条件"""
+    where: UserWhereInput
+  ): UserAggregate!
+
+  """获取单个"""
+  version(
+    """ID"""
+    id: Float!
+  ): Version!
+
+  """获取列表"""
+  versions(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VersionWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Version!]!
+
+  """获取分页列表"""
+  versionsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VersionWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): VersionsConnection!
+
+  """聚合查询"""
+  versionAggregate(
+    """筛选条件"""
+    where: VersionWhereInput
+  ): VersionAggregate!
+
+  """获取单个"""
+  versionedCell(
+    """ID"""
+    id: String!
+  ): VersionedCell!
+
+  """获取列表"""
+  versionedCells(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VersionedCellWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [VersionedCell!]!
+
+  """获取分页列表"""
+  versionedCellsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VersionedCellWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): VersionedCellsConnection!
+
+  """聚合查询"""
+  versionedCellAggregate(
+    """筛选条件"""
+    where: VersionedCellWhereInput
+  ): VersionedCellAggregate!
+
+  """获取单个"""
+  versionedColumn(
+    """ID"""
+    id: String!
+  ): VersionedColumn!
+
+  """获取列表"""
+  versionedColumns(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VersionedColumnWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [VersionedColumn!]!
+
+  """获取分页列表"""
+  versionedColumnsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VersionedColumnWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): VersionedColumnsConnection!
+
+  """聚合查询"""
+  versionedColumnAggregate(
+    """筛选条件"""
+    where: VersionedColumnWhereInput
+  ): VersionedColumnAggregate!
+
+  """获取单个"""
+  versionedOption(
+    """列ID"""
+    versionedColumnId: String!
+  ): VersionedOption!
+
+  """获取列表"""
+  versionedOptions(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VersionedOptionWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [VersionedOption!]!
+
+  """获取分页列表"""
+  versionedOptionsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VersionedOptionWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): VersionedOptionsConnection!
+
+  """聚合查询"""
+  versionedOptionAggregate(
+    """筛选条件"""
+    where: VersionedOptionWhereInput
+  ): VersionedOptionAggregate!
+
+  """获取单个"""
+  versionedRow(
+    """ID"""
+    id: String!
+  ): VersionedRow!
+
+  """获取列表"""
+  versionedRows(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VersionedRowWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [VersionedRow!]!
+
+  """获取分页列表"""
+  versionedRowsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VersionedRowWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): VersionedRowsConnection!
+
+  """聚合查询"""
+  versionedRowAggregate(
+    """筛选条件"""
+    where: VersionedRowWhereInput
+  ): VersionedRowAggregate!
+
+  """获取单个"""
+  view(
+    """ID"""
+    id: String!
+  ): View!
+
+  """获取列表"""
+  views(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: ViewWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [View!]!
+
+  """获取分页列表"""
+  viewsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: ViewWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): ViewsConnection!
+
+  """聚合查询"""
+  viewAggregate(
+    """筛选条件"""
+    where: ViewWhereInput
+  ): ViewAggregate!
+
+  """获取单个"""
+  viewColumn(
+    """ID"""
+    id: String!
+  ): ViewColumn!
+
+  """获取列表"""
+  viewColumns(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: ViewColumnWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [ViewColumn!]!
+
+  """获取分页列表"""
+  viewColumnsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: ViewColumnWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): ViewColumnsConnection!
+
+  """聚合查询"""
+  viewColumnAggregate(
+    """筛选条件"""
+    where: ViewColumnWhereInput
+  ): ViewColumnAggregate!
+
+  """获取单个"""
+  visit(
+    """ID"""
+    id: Float!
+  ): Visit!
+
+  """获取列表"""
+  visits(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VisitWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): [Visit!]!
+
+  """获取分页列表"""
+  visitsConnection(
+    """跳过元素个数"""
+    skip: Int = 0
+
+    """正向查找条数"""
+    first: Int = 20
+
+    """逆向查找条数(暂未支持)"""
+    last: Int = 10
+
+    """游标(暂未支持)"""
+    before: String
+
+    """游标(暂未支持)"""
+    after: String
+
+    """筛选条件"""
+    where: VisitWhereInput
+
+    """排序类型, 例如：id_ASC、id_DESC"""
+    orderBy: String
+  ): VisitsConnection!
+
+  """聚合查询"""
+  visitAggregate(
+    """筛选条件"""
+    where: VisitWhereInput
+  ): VisitAggregate!
+
+  """最大行index"""
+  maxRowSort(tableId: String!): Float!
+
+  """最大的行"""
+  maxRow(tableId: String!): Row!
+
+  """获取自己拥有的团队"""
+  ownedTeams: [Team!]!
+
+  """搜索用户"""
+  searchUsers(q: String!): [User!]!
+
+  """最大行index"""
+  maxViewColumnSort(viewId: String!): Float!
+}
+
+"""邮箱注册"""
+input RegisterByEmailInput {
+  """邮箱"""
+  email: String!
+
+  """密码"""
+  password: String!
+}
+
+"""删除列"""
+input RemoveColumnInput {
+  """ID"""
+  id: String!
+}
+
+"""删除成员"""
+input RemoveMemberInput {
+  """member ID"""
+  id: String!
+}
+
+"""删除Table行"""
+input RemoveRowInput {
+  """ID"""
+  id: String!
+}
+
+"""删除表格"""
+input RemoveTableInput {
+  """ID"""
+  id: String!
+}
+
+"""删除"""
+input RemoveViewInput {
+  """ID"""
+  id: String!
+}
+
+"""权限角色表"""
+type Role {
+  id: Int!
+
+  """角色名"""
+  name: RoleType!
+
+  """中文名"""
+  alias: String!
+
+  """描述"""
+  desc: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """role-permission"""
+  rolePermissions: [RolePermission!]!
+
+  """该角色的权限"""
+  permissions: [Permission!]!
+}
+
+"""聚合查询"""
+type RoleAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""角色权限表"""
+type RolePermission {
+  id: Int!
+
+  """权限ID"""
+  permissionId: Int
+
+  """角色ID"""
+  roleId: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """permission"""
+  permission: Permission!
+}
+
+"""聚合查询"""
+type RolePermissionAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input RolePermissionWhereInput {
+  """ID"""
+  id: Int
+}
+
+"""connection"""
+type RolePermissionsConnection {
+  items: [RolePermission!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""角色类型"""
+enum RoleType {
+  Owner
+  Admin
+  Editor
+  Commenter
+  Reader
+}
+
+"""筛选条件"""
+input RoleWhereInput {
+  """ID"""
+  id: Int
+}
+
+"""connection"""
+type RolesConnection {
+  items: [Role!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""行数据"""
+type Row {
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """排序"""
+  sortBaseTable: Int!
+
+  """是否disabled"""
+  disabled: Boolean!
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """cell"""
+  cells: [Cell!]!
+}
+
+"""聚合查询"""
+type RowAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input RowWhereInput {
+  """表格ID"""
+  tableId: String!
+}
+
+"""connection"""
+type RowsConnection {
+  items: [Row!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""最近访问"""
+input SetAsLastVisitedInput {
+  """表格ID"""
+  tableId: String
+
+  """视图ID"""
+  viewId: String!
+}
+
+"""排序"""
+type Sort {
+  """ID"""
+  id: String!
+
+  """列ID"""
+  columnId: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """视图ID"""
+  viewId: String!
+
+  """是否升序"""
+  ascending: Boolean!
+
+  """排序"""
+  sortBaseView: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type SortAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""排序"""
+input SortFiltersInput {
+  """原始sort值"""
+  origin: Int!
+
+  """目标sort值"""
+  target: Int!
+
+  """基于什么排序, 比如 flow_100"""
+  baseOn: String
+}
+
+"""排序"""
+input SortGroupsInput {
+  """原始sort值"""
+  origin: Int!
+
+  """目标sort值"""
+  target: Int!
+
+  """基于什么排序, 比如 flow_100"""
+  baseOn: String
+}
+
+"""排序"""
+input SortOptionsInput {
+  """原始sort值"""
+  origin: Int!
+
+  """目标sort值"""
+  target: Int!
+
+  """基于什么排序, 比如 flow_100"""
+  baseOn: String
+}
+
+"""排序"""
+input SortRowsInput {
+  """原始sort值"""
+  origin: Int!
+
+  """目标sort值"""
+  target: Int!
+
+  """基于什么排序, 比如 flow_100"""
+  baseOn: String
+}
+
+"""排序"""
+input SortSortsInput {
+  """原始sort值"""
+  origin: Int!
+
+  """目标sort值"""
+  target: Int!
+
+  """基于什么排序, 比如 flow_100"""
+  baseOn: String
+}
+
+"""排序"""
+input SortTablesInput {
+  """原始sort值"""
+  origin: Int!
+
+  """目标sort值"""
+  target: Int!
+
+  """基于什么排序, 比如 flow_100"""
+  baseOn: String
+}
+
+"""排序"""
+input SortVersionedRowsInput {
+  """原始sort值"""
+  origin: Int!
+
+  """目标sort值"""
+  target: Int!
+
+  """基于什么排序, 比如 flow_100"""
+  baseOn: String
+}
+
+"""排序"""
+input SortVersionsInput {
+  """原始sort值"""
+  origin: Int!
+
+  """目标sort值"""
+  target: Int!
+
+  """基于什么排序, 比如 flow_100"""
+  baseOn: String
+}
+
+"""排序"""
+input SortViewColumnsInput {
+  """原始sort值"""
+  origin: Int!
+
+  """目标sort值"""
+  target: Int!
+
+  """基于什么排序, 比如 flow_100"""
+  baseOn: String
+}
+
+"""排序"""
+input SortViewsInput {
+  """原始sort值"""
+  origin: Int!
+
+  """目标sort值"""
+  target: Int!
+
+  """基于什么排序, 比如 flow_100"""
+  baseOn: String
+}
+
+"""筛选条件"""
+input SortWhereInput {
+  """视图ID"""
+  viewId: String!
+}
+
+"""connection"""
+type SortsConnection {
+  items: [Sort!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""一张表格"""
+type Table {
+  """ID"""
+  id: String!
+
+  """团队ID"""
+  teamId: String!
+
+  """用户ID"""
+  creatorId: Int!
+
+  """最近访问的viewId"""
+  lastVisitedViewId: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """对外权限,private/public"""
+  permissionLevel: String
+
+  """基于Team排序"""
+  sortBaseTeam: Int
+
+  """是否在编辑中, 给前端用用的"""
+  editing: Boolean
+  deletedAt: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """team"""
+  team: Team!
+
+  """view"""
+  views: [View!]!
+
+  """view-column"""
+  viewColumns: [ViewColumn!]!
+
+  """row"""
+  rows: [Row!]!
+
+  """versioned-row"""
+  versionedRows: [VersionedRow!]!
+
+  """column"""
+  columns: [Column!]!
+
+  """versioned-column"""
+  versionedColumns: [VersionedColumn!]!
+}
+
+"""聚合查询"""
+type TableAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input TableWhereInput {
+  """团队ID"""
+  teamId: String
+}
+
+"""connection"""
+type TablesConnection {
+  items: [Table!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""团队"""
+type Team {
+  """ID"""
+  id: String!
+
+  """创建者用户ID"""
+  creatorId: Int!
+
+  """所有者ID"""
+  ownerId: Int!
+
+  """删除者Id"""
+  deletedById: Int
+
+  """短网址"""
+  slug: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """头像"""
+  avatar: String!
+
+  """访问类型, public,private..."""
+  access: String!
+
+  """是否是个人的"""
+  isPersonal: Boolean!
+  isPaid: Boolean!
+  isStudentTeam: Boolean!
+
+  """table数量"""
+  tableCount: Int!
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """member"""
+  members: [Member!]!
+
+  """table"""
+  tables: [Table!]!
+
+  """invitation-token"""
+  invitationTokens: [InvitationToken!]!
+}
+
+"""聚合查询"""
+type TeamAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input TeamWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""connection"""
+type TeamsConnection {
+  items: [Team!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+enum TimeFormat {
+  TwelveHour
+  TwentyFourHour
+}
+
+"""更新data"""
+input UpdateCellDataInput {
+  """列ID"""
+  data: String!
+}
+
+"""更新单个"""
+input UpdateCellInput {
+  """更新条件"""
+  where: UpdateCellWhereInput
+
+  """更新的数据"""
+  data: UpdateCellDataInput
+}
+
+"""更新条件"""
+input UpdateCellWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateCollaboratorDataInput {
+  """表格ID"""
+  tableId: String!
+
+  """用户ID"""
+  userId: Int!
+}
+
+"""更新单个"""
+input UpdateCollaboratorInput {
+  """更新条件"""
+  where: UpdateCollaboratorWhereInput
+
+  """更新的数据"""
+  data: UpdateCollaboratorDataInput
+}
+
+"""更新条件"""
+input UpdateCollaboratorWhereInput {
+  """ID"""
+  id: Int
+}
+
+"""更新data"""
+input UpdateColumnDataInput {
+  """字段类型"""
+  fieldType: FieldType
+
+  """名字"""
+  name: String
+
+  """描述"""
+  description: String
+}
+
+"""更新单个"""
+input UpdateColumnInput {
+  """更新条件"""
+  where: UpdateColumnWhereInput
+
+  """更新的数据"""
+  data: UpdateColumnDataInput
+}
+
+"""更新条件"""
+input UpdateColumnWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateCommentDataInput {
+  """剧本id"""
+  scriptId: Int
+
+  """用户id"""
+  userId: Int
+
+  """父级id"""
+  parentId: Int
+
+  """根评论id"""
+  rootId: Int
+
+  """内容"""
+  content: String
+
+  """是否剧透"""
+  leaked: Boolean
+
+  """状态"""
+  status: CommentStatus
+
+  """备注"""
+  remark: String
+}
+
+"""更新单个"""
+input UpdateCommentInput {
+  """更新条件"""
+  where: UpdateCommentWhereInput
+
+  """更新的数据"""
+  data: UpdateCommentDataInput
+}
+
+"""更新条件"""
+input UpdateCommentWhereInput {
+  """剧本id"""
+  scriptId: Int
+
+  """用户id"""
+  userId: Int
+
+  """父级id"""
+  parentId: Int
+
+  """根评论id"""
+  rootId: Int
+
+  """内容"""
+  content: String
+
+  """ID"""
+  id: Int
+}
+
+"""更新data"""
+input UpdateFeedbackDataInput {
+  """id"""
+  userId: Int
+
+  """标题"""
+  title: String!
+
+  """反馈内容"""
+  content: String
+
+  """联系方式"""
+  contact: String!
+
+  """图片,多url用逗号分隔,eg：url1,url2,url3"""
+  images: String
+}
+
+"""更新单个"""
+input UpdateFeedbackInput {
+  """更新条件"""
+  where: UpdateFeedbackWhereInput
+
+  """更新的数据"""
+  data: UpdateFeedbackDataInput
+}
+
+"""更新条件"""
+input UpdateFeedbackWhereInput {
+  """id"""
+  userId: Int
+
+  """标题"""
+  title: String!
+
+  """反馈内容"""
+  content: String
+
+  """联系方式"""
+  contact: String!
+
+  """图片,多url用逗号分隔,eg：url1,url2,url3"""
+  images: String
+
+  """ID"""
+  id: Int
+}
+
+"""更新data"""
+input UpdateFilterDataInput {
+  """列ID"""
+  columnId: String
+
+  """筛选连接类型"""
+  conjunction: ConjunctionType
+
+  """操作类型"""
+  operator: OperatorType
+
+  """字段类型"""
+  fieldType: FieldType
+}
+
+"""更新单个"""
+input UpdateFilterInput {
+  """更新条件"""
+  where: UpdateFilterWhereInput
+
+  """更新的数据"""
+  data: UpdateFilterDataInput
+}
+
+"""更新条件"""
+input UpdateFilterWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateGroupDataInput {
+  """列ID"""
+  columnId: String
+
+  """是否升序"""
+  ascending: Boolean
+}
+
+"""更新单个"""
+input UpdateGroupInput {
+  """更新条件"""
+  where: UpdateGroupWhereInput
+
+  """更新的数据"""
+  data: UpdateGroupDataInput
+}
+
+"""更新条件"""
+input UpdateGroupWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateInvitationTokenDataInput {
+  """团队ID"""
+  teamId: String!
+}
+
+"""更新单个"""
+input UpdateInvitationTokenInput {
+  """更新条件"""
+  where: UpdateInvitationTokenWhereInput
+
+  """更新的数据"""
+  data: UpdateInvitationTokenDataInput
+}
+
+"""更新条件"""
+input UpdateInvitationTokenWhereInput {
+  """ID"""
+  id: Float!
+}
+
+"""批量更新"""
+input UpdateManyCellInput {
+  """更新条件"""
+  where: UpdateCellWhereInput
+
+  """更新的数据"""
+  data: UpdateCellDataInput
+}
+
+"""批量更新"""
+input UpdateManyCollaboratorInput {
+  """更新条件"""
+  where: UpdateCollaboratorWhereInput
+
+  """更新的数据"""
+  data: UpdateCollaboratorDataInput
+}
+
+"""批量更新"""
+input UpdateManyColumnInput {
+  """更新条件"""
+  where: UpdateColumnWhereInput
+
+  """更新的数据"""
+  data: UpdateColumnDataInput
+}
+
+"""批量更新"""
+input UpdateManyCommentInput {
+  """更新条件"""
+  where: UpdateCommentWhereInput
+
+  """更新的数据"""
+  data: UpdateCommentDataInput
+}
+
+"""批量更新"""
+input UpdateManyFeedbackInput {
+  """更新条件"""
+  where: UpdateFeedbackWhereInput
+
+  """更新的数据"""
+  data: UpdateFeedbackDataInput
+}
+
+"""批量更新"""
+input UpdateManyFilterInput {
+  """更新条件"""
+  where: UpdateFilterWhereInput
+
+  """更新的数据"""
+  data: UpdateFilterDataInput
+}
+
+"""批量更新"""
+input UpdateManyGroupInput {
+  """更新条件"""
+  where: UpdateGroupWhereInput
+
+  """更新的数据"""
+  data: UpdateGroupDataInput
+}
+
+"""批量更新"""
+input UpdateManyInvitationTokenInput {
+  """更新条件"""
+  where: UpdateInvitationTokenWhereInput
+
+  """更新的数据"""
+  data: UpdateInvitationTokenDataInput
+}
+
+"""批量更新"""
+input UpdateManyMemberInput {
+  """更新条件"""
+  where: UpdateMemberWhereInput
+
+  """更新的数据"""
+  data: UpdateMemberDataInput
+}
+
+"""批量更新"""
+input UpdateManyOptionInput {
+  """更新条件"""
+  where: UpdateOptionWhereInput
+
+  """更新的数据"""
+  data: UpdateOptionDataInput
+}
+
+"""批量更新"""
+input UpdateManyOrgInput {
+  """更新条件"""
+  where: UpdateOrgWhereInput
+
+  """更新的数据"""
+  data: UpdateOrgDataInput
+}
+
+"""批量更新"""
+input UpdateManyOrgUserInput {
+  """更新条件"""
+  where: UpdateOrgUserWhereInput
+
+  """更新的数据"""
+  data: UpdateOrgUserDataInput
+}
+
+"""批量更新"""
+input UpdateManyPermissionInput {
+  """更新条件"""
+  where: UpdatePermissionWhereInput
+
+  """更新的数据"""
+  data: UpdatePermissionDataInput
+}
+
+"""批量更新"""
+input UpdateManyRoleInput {
+  """更新条件"""
+  where: UpdateRoleWhereInput
+
+  """更新的数据"""
+  data: UpdateRoleDataInput
+}
+
+"""批量更新"""
+input UpdateManyRolePermissionInput {
+  """更新条件"""
+  where: UpdateRolePermissionWhereInput
+
+  """更新的数据"""
+  data: UpdateRolePermissionDataInput
+}
+
+"""批量更新"""
+input UpdateManyRowInput {
+  """更新条件"""
+  where: UpdateRowWhereInput
+
+  """更新的数据"""
+  data: UpdateRowDataInput
+}
+
+"""批量更新"""
+input UpdateManySortInput {
+  """更新条件"""
+  where: UpdateSortWhereInput
+
+  """更新的数据"""
+  data: UpdateSortDataInput
+}
+
+"""批量更新"""
+input UpdateManyTableInput {
+  """更新条件"""
+  where: UpdateTableWhereInput
+
+  """更新的数据"""
+  data: UpdateTableDataInput
+}
+
+"""批量更新"""
+input UpdateManyTeamInput {
+  """更新条件"""
+  where: UpdateTeamWhereInput
+
+  """更新的数据"""
+  data: UpdateTeamDataInput
+}
+
+"""批量更新"""
+input UpdateManyUserInput {
+  """更新条件"""
+  where: UpdateUserWhereInput
+
+  """更新的数据"""
+  data: UpdateUserDataInput
+}
+
+"""批量更新"""
+input UpdateManyVersionInput {
+  """更新条件"""
+  where: UpdateVersionWhereInput
+
+  """更新的数据"""
+  data: UpdateVersionDataInput
+}
+
+"""批量更新"""
+input UpdateManyVersionedCellInput {
+  """更新条件"""
+  where: UpdateVersionedCellWhereInput
+
+  """更新的数据"""
+  data: UpdateVersionedCellDataInput
+}
+
+"""批量更新"""
+input UpdateManyVersionedColumnInput {
+  """更新条件"""
+  where: UpdateVersionedColumnWhereInput
+
+  """更新的数据"""
+  data: UpdateVersionedColumnDataInput
+}
+
+"""批量更新"""
+input UpdateManyVersionedOptionInput {
+  """更新条件"""
+  where: UpdateVersionedOptionWhereInput
+
+  """更新的数据"""
+  data: UpdateVersionedOptionDataInput
+}
+
+"""批量更新"""
+input UpdateManyVersionedRowInput {
+  """更新条件"""
+  where: UpdateVersionedRowWhereInput
+
+  """更新的数据"""
+  data: UpdateVersionedRowDataInput
+}
+
+"""批量更新"""
+input UpdateManyViewColumnInput {
+  """更新条件"""
+  where: UpdateViewColumnWhereInput
+
+  """更新的数据"""
+  data: UpdateViewColumnDataInput
+}
+
+"""批量更新"""
+input UpdateManyViewInput {
+  """更新条件"""
+  where: UpdateViewWhereInput
+
+  """更新的数据"""
+  data: UpdateViewDataInput
+}
+
+"""批量更新"""
+input UpdateManyVisitInput {
+  """更新条件"""
+  where: UpdateVisitWhereInput
+
+  """更新的数据"""
+  data: UpdateVisitDataInput
+}
+
+"""更新data"""
+input UpdateMemberDataInput {
+  """团队ID"""
+  teamId: String!
+
+  """用户ID"""
+  userId: Int!
+}
+
+"""更新单个"""
+input UpdateMemberInput {
+  """更新条件"""
+  where: UpdateMemberWhereInput
+
+  """更新的数据"""
+  data: UpdateMemberDataInput
+}
+
+"""更新条件"""
+input UpdateMemberWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateOptionDataInput {
+  """名字"""
+  name: String
+
+  """颜色"""
+  color: String
+}
+
+"""更新单个"""
+input UpdateOptionInput {
+  """更新条件"""
+  where: UpdateOptionWhereInput
+
+  """更新的数据"""
+  data: UpdateOptionDataInput
+}
+
+"""更新条件"""
+input UpdateOptionWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateOrgDataInput {
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """头像"""
+  avatar: String!
+}
+
+"""更新单个"""
+input UpdateOrgInput {
+  """更新条件"""
+  where: UpdateOrgWhereInput
+
+  """更新的数据"""
+  data: UpdateOrgDataInput
+}
+
+"""更新data"""
+input UpdateOrgUserDataInput {
+  """用户ID"""
+  userId: Int!
+}
+
+"""更新单个"""
+input UpdateOrgUserInput {
+  """更新条件"""
+  where: UpdateOrgUserWhereInput
+
+  """更新的数据"""
+  data: UpdateOrgUserDataInput
+}
+
+"""更新条件"""
+input UpdateOrgUserWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新条件"""
+input UpdateOrgWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdatePermissionDataInput {
+  """权限名称"""
+  name: String
+
+  """权限码"""
+  code: String
+}
+
+"""更新单个"""
+input UpdatePermissionInput {
+  """更新条件"""
+  where: UpdatePermissionWhereInput
+
+  """更新的数据"""
+  data: UpdatePermissionDataInput
+}
+
+"""更新条件"""
+input UpdatePermissionWhereInput {
+  """ID"""
+  id: Int
+}
+
+"""更新data"""
+input UpdateRoleDataInput {
+  """角色名"""
+  name: RoleType!
+}
+
+"""更新单个"""
+input UpdateRoleInput {
+  """更新条件"""
+  where: UpdateRoleWhereInput
+
+  """更新的数据"""
+  data: UpdateRoleDataInput
+}
+
+"""更新data"""
+input UpdateRolePermissionDataInput {
+  """权限ID"""
+  permissionId: Int
+
+  """角色ID"""
+  roleId: Int
+}
+
+"""更新单个"""
+input UpdateRolePermissionInput {
+  """更新条件"""
+  where: UpdateRolePermissionWhereInput
+
+  """更新的数据"""
+  data: UpdateRolePermissionDataInput
+}
+
+"""更新条件"""
+input UpdateRolePermissionWhereInput {
+  """ID"""
+  id: Int
+}
+
+"""更新条件"""
+input UpdateRoleWhereInput {
+  """ID"""
+  id: Int
+}
+
+"""更新data"""
+input UpdateRowDataInput {
+  """表格ID"""
+  tableId: String!
+
+  """排序"""
+  sortBaseTable: Int
+}
+
+"""更新单个"""
+input UpdateRowInput {
+  """更新条件"""
+  where: UpdateRowWhereInput
+
+  """更新的数据"""
+  data: UpdateRowDataInput
+}
+
+"""更新条件"""
+input UpdateRowWhereInput {
+  """ID"""
+  id: String
+}
+
+"""更新data"""
+input UpdateSortDataInput {
+  """列ID"""
+  columnId: String
+
+  """是否升序"""
+  ascending: Boolean
+}
+
+"""更新单个"""
+input UpdateSortInput {
+  """更新条件"""
+  where: UpdateSortWhereInput
+
+  """更新的数据"""
+  data: UpdateSortDataInput
+}
+
+"""更新条件"""
+input UpdateSortWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateTableDataInput {
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """行距"""
+  leading: String
+}
+
+"""更新单个"""
+input UpdateTableInput {
+  """更新条件"""
+  where: UpdateTableWhereInput
+
+  """更新的数据"""
+  data: UpdateTableDataInput
+}
+
+"""更新条件"""
+input UpdateTableWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateTeamDataInput {
+  """创建者用户ID"""
+  creatorId: Int!
+
+  """所有者ID"""
+  ownerId: Int!
+
+  """唯一用户名"""
+  login: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """头像"""
+  avatar: String!
+
+  """是否公开"""
+  public: Boolean!
+}
+
+"""更新单个"""
+input UpdateTeamInput {
+  """更新条件"""
+  where: UpdateTeamWhereInput
+
+  """更新的数据"""
+  data: UpdateTeamDataInput
+}
+
+"""更新条件"""
+input UpdateTeamWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateUserDataInput {
+  """唯一标识"""
+  login: String
+
+  """用户名"""
+  username: String
+
+  """昵称"""
+  nickname: String
+
+  """个人简介"""
+  bio: String
+
+  """邮箱"""
+  email: String
+
+  """职业"""
+  jobTitle: String
+}
+
+"""更新单个"""
+input UpdateUserInput {
+  """更新条件"""
+  where: UpdateUserWhereInput
+
+  """更新的数据"""
+  data: UpdateUserDataInput
+}
+
+"""更新条件"""
+input UpdateUserWhereInput {
+  """ID"""
+  id: Int
+}
+
+"""更新data"""
+input UpdateVersionDataInput {
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+}
+
+"""更新单个"""
+input UpdateVersionInput {
+  """更新条件"""
+  where: UpdateVersionWhereInput
+
+  """更新的数据"""
+  data: UpdateVersionDataInput
+}
+
+"""更新条件"""
+input UpdateVersionWhereInput {
+  """ID"""
+  id: Float!
+}
+
+"""更新data"""
+input UpdateVersionedCellDataInput {
+  """列ID"""
+  data: String!
+}
+
+"""更新单个"""
+input UpdateVersionedCellInput {
+  """更新条件"""
+  where: UpdateVersionedCellWhereInput
+
+  """更新的数据"""
+  data: UpdateVersionedCellDataInput
+}
+
+"""更新条件"""
+input UpdateVersionedCellWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateVersionedColumnDataInput {
+  """字段类型"""
+  fieldType: FieldType
+
+  """名字"""
+  name: String
+
+  """描述"""
+  description: String
+}
+
+"""更新单个"""
+input UpdateVersionedColumnInput {
+  """更新条件"""
+  where: UpdateVersionedColumnWhereInput
+
+  """更新的数据"""
+  data: UpdateVersionedColumnDataInput
+}
+
+"""更新条件"""
+input UpdateVersionedColumnWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateVersionedOptionDataInput {
+  """名字"""
+  name: String
+
+  """颜色"""
+  color: String
+}
+
+"""更新单个"""
+input UpdateVersionedOptionInput {
+  """更新条件"""
+  where: UpdateVersionedOptionWhereInput
+
+  """更新的数据"""
+  data: UpdateVersionedOptionDataInput
+}
+
+"""更新条件"""
+input UpdateVersionedOptionWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateVersionedRowDataInput {
+  """表格ID"""
+  tableId: String!
+
+  """排序"""
+  sortBaseTable: Int
+}
+
+"""更新单个"""
+input UpdateVersionedRowInput {
+  """更新条件"""
+  where: UpdateVersionedRowWhereInput
+
+  """更新的数据"""
+  data: UpdateVersionedRowDataInput
+}
+
+"""更新条件"""
+input UpdateVersionedRowWhereInput {
+  """ID"""
+  id: String
+}
+
+"""更新data"""
+input UpdateViewColumnDataInput {
+  """宽度"""
+  width: Int
+
+  """是否可见"""
+  visible: Boolean
+}
+
+"""更新单个"""
+input UpdateViewColumnInput {
+  """更新条件"""
+  where: UpdateViewColumnWhereInput
+
+  """更新的数据"""
+  data: UpdateViewColumnDataInput
+}
+
+"""更新条件"""
+input UpdateViewColumnWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateViewDataInput {
+  """名字"""
+  name: String
+
+  """描述"""
+  description: String
+
+  """行距"""
+  leading: String
+}
+
+"""更新单个"""
+input UpdateViewInput {
+  """更新条件"""
+  where: UpdateViewWhereInput
+
+  """更新的数据"""
+  data: UpdateViewDataInput
+}
+
+"""更新条件"""
+input UpdateViewWhereInput {
+  """ID"""
+  id: String!
+}
+
+"""更新data"""
+input UpdateVisitDataInput {
+  """最近访问的 teamId"""
+  teamId: String!
+
+  """最近访问的 tableId"""
+  tableId: String!
+
+  """最近访问的viewId"""
+  viewId: String!
+
+  """视图类型"""
+  viewType: ViewType
+}
+
+"""更新单个"""
+input UpdateVisitInput {
+  """更新条件"""
+  where: UpdateVisitWhereInput
+
+  """更新的数据"""
+  data: UpdateVisitDataInput
+}
+
+"""更新条件"""
+input UpdateVisitWhereInput {
+  """ID"""
+  id: Float!
+}
+
+"""更新或创建"""
+input UpsertCellInput {
+  """更新条件"""
+  where: UpdateCellWhereInput
+
+  """更新的数据"""
+  update: UpdateCellDataInput
+
+  """创建的数据"""
+  create: CreateCellInput
+}
+
+"""更新或创建"""
+input UpsertCollaboratorInput {
+  """更新条件"""
+  where: UpdateCollaboratorWhereInput
+
+  """更新的数据"""
+  update: UpdateCollaboratorDataInput
+
+  """创建的数据"""
+  create: CreateCollaboratorInput
+}
+
+"""更新或创建"""
+input UpsertColumnInput {
+  """更新条件"""
+  where: UpdateColumnWhereInput
+
+  """更新的数据"""
+  update: UpdateColumnDataInput
+
+  """创建的数据"""
+  create: CreateColumnInput
+}
+
+"""更新或创建"""
+input UpsertCommentInput {
+  """更新条件"""
+  where: UpdateCommentWhereInput
+
+  """更新的数据"""
+  update: UpdateCommentDataInput
+
+  """创建的数据"""
+  create: CreateCommentInput
+}
+
+"""更新或创建"""
+input UpsertFeedbackInput {
+  """更新条件"""
+  where: UpdateFeedbackWhereInput
+
+  """更新的数据"""
+  update: UpdateFeedbackDataInput
+
+  """创建的数据"""
+  create: CreateFeedbackInput
+}
+
+"""更新或创建"""
+input UpsertFilterInput {
+  """更新条件"""
+  where: UpdateFilterWhereInput
+
+  """更新的数据"""
+  update: UpdateFilterDataInput
+
+  """创建的数据"""
+  create: CreateFilterInput
+}
+
+"""更新或创建"""
+input UpsertGroupInput {
+  """更新条件"""
+  where: UpdateGroupWhereInput
+
+  """更新的数据"""
+  update: UpdateGroupDataInput
+
+  """创建的数据"""
+  create: CreateGroupInput
+}
+
+"""更新或创建"""
+input UpsertInvitationTokenInput {
+  """更新条件"""
+  where: UpdateInvitationTokenWhereInput
+
+  """更新的数据"""
+  update: UpdateInvitationTokenDataInput
+
+  """创建的数据"""
+  create: CreateInvitationTokenInput
+}
+
+"""更新或创建"""
+input UpsertMemberInput {
+  """更新条件"""
+  where: UpdateMemberWhereInput
+
+  """更新的数据"""
+  update: UpdateMemberDataInput
+
+  """创建的数据"""
+  create: CreateMemberInput
+}
+
+"""更新或创建"""
+input UpsertOptionInput {
+  """更新条件"""
+  where: UpdateOptionWhereInput
+
+  """更新的数据"""
+  update: UpdateOptionDataInput
+
+  """创建的数据"""
+  create: CreateOptionInput
+}
+
+"""更新或创建"""
+input UpsertOrgInput {
+  """更新条件"""
+  where: UpdateOrgWhereInput
+
+  """更新的数据"""
+  update: UpdateOrgDataInput
+
+  """创建的数据"""
+  create: CreateOrgInput
+}
+
+"""更新或创建"""
+input UpsertOrgUserInput {
+  """更新条件"""
+  where: UpdateOrgUserWhereInput
+
+  """更新的数据"""
+  update: UpdateOrgUserDataInput
+
+  """创建的数据"""
+  create: CreateOrgUserInput
+}
+
+"""更新或创建"""
+input UpsertPermissionInput {
+  """更新条件"""
+  where: UpdatePermissionWhereInput
+
+  """更新的数据"""
+  update: UpdatePermissionDataInput
+
+  """创建的数据"""
+  create: CreatePermissionInput
+}
+
+"""更新或创建"""
+input UpsertRoleInput {
+  """更新条件"""
+  where: UpdateRoleWhereInput
+
+  """更新的数据"""
+  update: UpdateRoleDataInput
+
+  """创建的数据"""
+  create: CreateRoleInput
+}
+
+"""更新或创建"""
+input UpsertRolePermissionInput {
+  """更新条件"""
+  where: UpdateRolePermissionWhereInput
+
+  """更新的数据"""
+  update: UpdateRolePermissionDataInput
+
+  """创建的数据"""
+  create: CreateRolePermissionInput
+}
+
+"""更新或创建"""
+input UpsertRowInput {
+  """更新条件"""
+  where: UpdateRowWhereInput
+
+  """更新的数据"""
+  update: UpdateRowDataInput
+
+  """创建的数据"""
+  create: CreateRowInput
+}
+
+"""更新或创建"""
+input UpsertSortInput {
+  """更新条件"""
+  where: UpdateSortWhereInput
+
+  """更新的数据"""
+  update: UpdateSortDataInput
+
+  """创建的数据"""
+  create: CreateSortInput
+}
+
+"""更新或创建"""
+input UpsertTableInput {
+  """更新条件"""
+  where: UpdateTableWhereInput
+
+  """更新的数据"""
+  update: UpdateTableDataInput
+
+  """创建的数据"""
+  create: CreateTableInput
+}
+
+"""更新或创建"""
+input UpsertTeamInput {
+  """更新条件"""
+  where: UpdateTeamWhereInput
+
+  """更新的数据"""
+  update: UpdateTeamDataInput
+
+  """创建的数据"""
+  create: CreateTeamInput
+}
+
+"""更新或创建"""
+input UpsertUserInput {
+  """更新条件"""
+  where: UpdateUserWhereInput
+
+  """更新的数据"""
+  update: UpdateUserDataInput
+
+  """创建的数据"""
+  create: CreateUserInput
+}
+
+"""更新或创建"""
+input UpsertVersionInput {
+  """更新条件"""
+  where: UpdateVersionWhereInput
+
+  """更新的数据"""
+  update: UpdateVersionDataInput
+
+  """创建的数据"""
+  create: CreateVersionInput
+}
+
+"""更新或创建"""
+input UpsertVersionedCellInput {
+  """更新条件"""
+  where: UpdateVersionedCellWhereInput
+
+  """更新的数据"""
+  update: UpdateVersionedCellDataInput
+
+  """创建的数据"""
+  create: CreateVersionedCellInput
+}
+
+"""更新或创建"""
+input UpsertVersionedColumnInput {
+  """更新条件"""
+  where: UpdateVersionedColumnWhereInput
+
+  """更新的数据"""
+  update: UpdateVersionedColumnDataInput
+
+  """创建的数据"""
+  create: CreateVersionedColumnInput
+}
+
+"""更新或创建"""
+input UpsertVersionedOptionInput {
+  """更新条件"""
+  where: UpdateVersionedOptionWhereInput
+
+  """更新的数据"""
+  update: UpdateVersionedOptionDataInput
+
+  """创建的数据"""
+  create: CreateVersionedOptionInput
+}
+
+"""更新或创建"""
+input UpsertVersionedRowInput {
+  """更新条件"""
+  where: UpdateVersionedRowWhereInput
+
+  """更新的数据"""
+  update: UpdateVersionedRowDataInput
+
+  """创建的数据"""
+  create: CreateVersionedRowInput
+}
+
+"""更新或创建"""
+input UpsertViewColumnInput {
+  """更新条件"""
+  where: UpdateViewColumnWhereInput
+
+  """更新的数据"""
+  update: UpdateViewColumnDataInput
+
+  """创建的数据"""
+  create: CreateViewColumnInput
+}
+
+"""更新或创建"""
+input UpsertViewInput {
+  """更新条件"""
+  where: UpdateViewWhereInput
+
+  """更新的数据"""
+  update: UpdateViewDataInput
+
+  """创建的数据"""
+  create: CreateViewInput
+}
+
+"""更新或创建"""
+input UpsertVisitInput {
+  """更新条件"""
+  where: UpdateVisitWhereInput
+
+  """更新的数据"""
+  update: UpdateVisitDataInput
+
+  """创建的数据"""
+  create: CreateVisitInput
+}
+
+"""user"""
+type User {
+  id: Float!
+
+  """唯一标识"""
+  login: String!
+
+  """Github ID"""
+  githubId: Float
+
+  """用户名"""
+  username: String!
+
+  """全名/昵称"""
+  nickname: String!
+
+  """个人简介"""
+  bio: String!
+
+  """头像"""
+  avatar: String!
+
+  """邮箱"""
+  email: String!
+
+  """邮箱校验时间"""
+  emailValidatedAt: DateTime
+
+  """手机"""
+  phone: String!
+
+  """职业"""
+  jobTitle: String!
+  googleSsoOnly: Boolean!
+  samlSsoOnly: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""聚合查询"""
+type UserAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input UserWhereInput {
+  """昵称"""
+  nickname: String
+
+  """搜索用户"""
+  q: String
+}
+
+"""connection"""
+type UsersConnection {
+  items: [User!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""版本"""
+type Version {
+  id: Float!
+
+  """表格ID"""
+  tableId: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """索引ID"""
+  index: Int!
+
+  """排序"""
+  sortBaseTable: Int!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type VersionAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input VersionWhereInput {
+  """表格ID"""
+  tableId: String
+}
+
+"""一个单元格"""
+type VersionedCell {
+  primaryId: Float!
+
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """列ID"""
+  columnId: String!
+
+  """行ID"""
+  rowId: String!
+
+  """版本ID"""
+  versionId: Float!
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """单元格数据"""
+  data: CellData
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type VersionedCellAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input VersionedCellWhereInput {
+  """列ID"""
+  columnId: String!
+
+  """行ID"""
+  rowId: String
+
+  """字段类型"""
+  fieldType: FieldType
+}
+
+"""connection"""
+type VersionedCellsConnection {
+  items: [VersionedCell!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""列数据"""
+type VersionedColumn {
+  primaryId: Float!
+
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """版本ID"""
+  versionId: Float!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """字段类型"""
+  fieldType: FieldType!
+
+  """是否是主列"""
+  isPrimary: Boolean
+
+  """配置"""
+  config: VersionedColumnConfig
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type VersionedColumnAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""列配置"""
+type VersionedColumnConfig {
+  """@LongText, 是否开启富文本"""
+  useRichText: Boolean
+
+  """@Collaborator, 是否可以多个"""
+  multiCollaborator: Boolean
+
+  """@Collaborator, 是否需要通知"""
+  shouldNotify: Boolean
+
+  """@Date, 日期格式"""
+  dateFormat: DateFormat
+
+  """@Date, 时间格式"""
+  timeFormat: TimeFormat
+
+  """@Date, 包含时间"""
+  includeTime: Boolean
+}
+
+"""筛选条件"""
+input VersionedColumnWhereInput {
+  """表格ID"""
+  tableId: String!
+
+  """版本ID"""
+  versionId: Float!
+}
+
+"""connection"""
+type VersionedColumnsConnection {
+  items: [VersionedColumn!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""选项"""
+type VersionedOption {
+  primaryId: Float!
+
+  """ID"""
+  id: String!
+
+  """列ID"""
+  versionedColumnId: String!
+
+  """名字"""
+  name: String!
+
+  """颜色"""
+  color: String!
+
+  """基于列排序"""
+  sortBaseVersionedColumn: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""聚合查询"""
+type VersionedOptionAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input VersionedOptionWhereInput {
+  """id"""
+  id: Int
+}
+
+"""connection"""
+type VersionedOptionsConnection {
+  items: [VersionedOption!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""行数据"""
+type VersionedRow {
+  primaryId: Float!
+
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """版本ID"""
+  versionId: Float!
+
+  """排序"""
+  sortBaseTable: Int!
+
+  """是否disabled"""
+  disabled: Boolean!
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """versioned-cell"""
+  cells: [VersionedCell!]!
+}
+
+"""聚合查询"""
+type VersionedRowAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input VersionedRowWhereInput {
+  """表格ID"""
+  tableId: String!
+
+  """版本ID"""
+  versionId: Float!
+}
+
+"""connection"""
+type VersionedRowsConnection {
+  items: [VersionedRow!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""connection"""
+type VersionsConnection {
+  items: [Version!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""视图类型"""
+type View {
+  """ID"""
+  id: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """名字"""
+  name: String!
+
+  """描述"""
+  description: String
+
+  """是否公开给成员"""
+  public: Boolean!
+
+  """类型"""
+  type: ViewType!
+
+  """看板基准列"""
+  stackedColumnId: String
+
+  """行距"""
+  leading: LeadingType!
+
+  """排序"""
+  sortBaseTable: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """view-column"""
+  viewColumns: [ViewColumn!]!
+
+  """sort"""
+  sorts: [Sort!]!
+
+  """group"""
+  groups: [Group!]!
+
+  """filter"""
+  filters: [Filter!]!
+}
+
+"""聚合查询"""
+type ViewAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""视图类型-列"""
+type ViewColumn {
+  """ID"""
+  id: String!
+
+  """列ID"""
+  columnId: String!
+
+  """表格ID"""
+  tableId: String!
+
+  """视图ID"""
+  viewId: String!
+
+  """宽度"""
+  width: Int!
+
+  """是否可见"""
+  visible: Boolean!
+
+  """排序"""
+  sortBaseView: Int!
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """column"""
+  column: Column!
+}
+
+"""聚合查询"""
+type ViewColumnAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input ViewColumnWhereInput {
+  """视图ID"""
+  viewId: String
+
+  """表格ID"""
+  tableId: String
+}
+
+"""connection"""
+type ViewColumnsConnection {
+  items: [ViewColumn!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""视图类型"""
+enum ViewType {
+  Grid
+  Form
+  Calendar
+  Gallery
+  Kanban
+}
+
+"""筛选条件"""
+input ViewWhereInput {
+  """表格ID"""
+  tableId: String!
+}
+
+"""connection"""
+type ViewsConnection {
+  items: [View!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+"""用户访问信息，给前端用的"""
+type Visit {
+  id: Float!
+
+  """用户ID"""
+  userId: Int!
+
+  """最近访问的 teamId"""
+  teamId: String!
+
+  """最近访问的 tableId"""
+  tableId: String!
+
+  """最近访问的viewId"""
+  viewId: String!
+
+  """视图类型"""
+  viewType: ViewType!
+}
+
+"""聚合查询"""
+type VisitAggregate {
+  """总数"""
+  count: Int!
+}
+
+"""筛选条件"""
+input VisitWhereInput {
+  """表格ID"""
+  tableId: String
+}
+
+"""connection"""
+type VisitsConnection {
+  items: [Visit!]!
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
