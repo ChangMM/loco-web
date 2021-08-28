@@ -7,11 +7,9 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm i
+RUN npm install
 
 COPY . .
-
-FROM base as production
 
 RUN npm run build
 
