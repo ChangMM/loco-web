@@ -19,6 +19,6 @@ export default withSession(async (req: NextIronRequest, res: NextApiResponse) =>
     await req.session.save()
     res.json(payload)
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json({ error })
   }
 })
