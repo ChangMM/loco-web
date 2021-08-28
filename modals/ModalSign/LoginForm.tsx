@@ -41,7 +41,7 @@ export function LoginForm() {
 
             push(`/t/${visit.teamId}?tableId=${visit.tableId}&viewId=${visit.viewId}`)
             modalService.closeModalSign()
-          } catch (error) {
+          } catch (error: any) {
             console.log('error:', error)
             toast.error(error.message)
           }

@@ -51,7 +51,7 @@ const ModalAddRowWithData = () => {
         tableId,
         cells,
       })
-    } catch (e) {
+    } catch (e: any) {
       toast.error(e.message)
     }
   }
@@ -67,7 +67,7 @@ const ModalAddRowWithData = () => {
     })
     try {
       await apiService.modifyRow({ cells })
-    } catch (e) {
+    } catch (e: any) {
       toast.error(e.message)
     }
   }

@@ -45,7 +45,7 @@ export const AddViewBtn = () => {
       const view = await apiService.addView(viewData)
 
       refecthTable({ id: tableId })
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message)
     }
   }

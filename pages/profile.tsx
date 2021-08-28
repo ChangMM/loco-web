@@ -22,7 +22,7 @@ export default function Profile() {
               const data = await apiService.updateUser({ where: { id: user.id }, data: values })
               setUser(data)
               toast.success('更新个人信息成功')
-            } catch (error) {
+            } catch (error: any) {
               toast.error('更新个人信息失败' + error.code)
             }
           }}

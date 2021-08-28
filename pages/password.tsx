@@ -19,7 +19,7 @@ export default function Password() {
           } else {
             toast.success('更新密码失败')
           }
-        } catch (error) {
+        } catch (error: any) {
           toast.error('更新密码失败:' + error.message)
         }
       } else {

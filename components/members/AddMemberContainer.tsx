@@ -60,7 +60,7 @@ export default function Members(props: Props) {
       setTimeout(() => {
         onClose(true)
       }, 1000)
-    } catch (error) {
+    } catch (error: any) {
       toast.error('添加失败' + error.message)
     }
   }
