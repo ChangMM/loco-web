@@ -1,3 +1,4 @@
+require('dotenv').config()
 import { CogenConfig } from '@cogen/cli'
 import { ModalConfig } from 'cogen-modal'
 import { DrawerConfig } from 'cogen-drawer'

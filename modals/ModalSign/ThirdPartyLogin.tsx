@@ -1,17 +1,8 @@
 import { Box } from '@fower/react'
-import { Form, Field } from '@formy/react'
 import { Button } from '@bone-ui/button'
-import { apiService } from '@generated/api'
-import { useUser } from '@stores/user.store'
-import { useToken } from '@stores/token.store'
-import { toast } from '@bone-ui/toast'
 import { Divider, DividerTitle } from '@bone-ui/divider'
-import { useRouter } from 'next/dist/client/router'
-import { useVisit } from '@stores/visit.store'
-import { modalService } from '@generated/modalService'
 import { IconGoggle } from '@components/icons/IconGoggle'
 import { IconGithub } from '@components/icons/IconGithub'
-import { useSignStatus } from '@stores/sign-status.store'
 
 interface Values {
   email: string
@@ -20,7 +11,7 @@ interface Values {
 
 export function ThirdPartyLogin() {
   const clientId = '4909444917febd04be0b'
-  const redirectUri = 'http://localhost:3000/oauth/redirect'
+  const redirectUri = process.env.NEXT_PUBLIC_API_HOST
   const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`
 
   return (

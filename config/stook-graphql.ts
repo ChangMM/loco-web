@@ -21,5 +21,5 @@ applyMiddleware(async (ctx, next) => {
 })
 
 config({
-  endpoint: process.env.NEXT_PUBLIC_GQL_ENDPOINT as string,
+  endpoint: process.env.NEXT_PUBLIC_API_HOST + '/graphql',
 })
