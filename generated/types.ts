@@ -5643,8 +5643,6 @@ export type User = {
   jobTitle: Scalars['String'];
   googleSsoOnly: Scalars['Boolean'];
   samlSsoOnly: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
 };
 
 /** 聚合查询 */

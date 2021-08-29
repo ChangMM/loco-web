@@ -7,14 +7,20 @@ import { StookGraphqlConfig, ConfigItem } from 'cogen-stook-graphql'
 const { NODE_ENV } = process.env
 
 export const getEndpoint = () => {
-  console.log('NODE_ENV===========:', NODE_ENV, process.env.GQL_ENDPOINT)
+  console.log('NODE_ENV===========:', NODE_ENV)
 
   if (NODE_ENV === 'development') return 'http://localhost:5001/graphql'
   if (NODE_ENV === 'production') return 'http://1.14.165.196:5001/graphql'
   return 'http://localhost:5001/graphql'
 }
 
+console.log('---:', getEndpoint())
+
 const gqlConfig: ConfigItem[] = [
+  {
+    name: 'loginByGithub',
+    actions: ['query'],
+  },
   {
     name: 'registerByEmail',
     actions: ['query'],

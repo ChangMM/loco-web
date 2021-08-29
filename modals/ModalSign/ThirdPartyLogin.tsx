@@ -19,6 +19,10 @@ interface Values {
 }
 
 export function ThirdPartyLogin() {
+  const clientId = '4909444917febd04be0b'
+  const redirectUri = 'http://localhost:3000/oauth/redirect'
+  const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`
+
   return (
     <Box>
       <Divider my6>
@@ -26,6 +30,8 @@ export function ThirdPartyLogin() {
       </Divider>
       <Box spaceY4>
         <Button
+          as="a"
+          href={url}
           w-100p
           variant="outline"
           colorScheme="black"

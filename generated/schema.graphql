@@ -5798,8 +5798,6 @@ type User {
   jobTitle: String!
   googleSsoOnly: Boolean!
   samlSsoOnly: Boolean!
-  createdAt: DateTime!
-  updatedAt: DateTime!
 }
 
 """聚合查询"""

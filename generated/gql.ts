@@ -59,8 +59,6 @@ query members($skip: Int, $first: Int, $last: Int, $before: String, $after: Stri
             jobTitle
             googleSsoOnly
             samlSsoOnly
-            createdAt
-            updatedAt
         }
         role{
             id
@@ -89,8 +87,6 @@ query searchUsers($q: String!){
         jobTitle
         googleSsoOnly
         samlSsoOnly
-        createdAt
-        updatedAt
     }
 }
 `;
@@ -134,8 +130,6 @@ query team($id: String, $slug: String){
                 jobTitle
                 googleSsoOnly
                 samlSsoOnly
-                createdAt
-                updatedAt
             }
             role{
                 id
@@ -710,6 +704,38 @@ query versions($skip: Int, $first: Int, $last: Int, $before: String, $after: Str
     }
 }
 `;
+export const LOGIN_BY_GITHUB = gql`
+mutation loginByGithub($code: String!){
+    loginByGithub(code: $code){
+        token
+        userId
+        username
+        user{
+            id
+            login
+            githubId
+            username
+            nickname
+            bio
+            avatar
+            email
+            emailValidatedAt
+            phone
+            jobTitle
+            googleSsoOnly
+            samlSsoOnly
+        }
+        visit{
+            id
+            userId
+            teamId
+            tableId
+            viewId
+            viewType
+        }
+    }
+}
+`;
 export const REGISTER_BY_EMAIL = gql`
 mutation registerByEmail($input: RegisterByEmailInput!){
     registerByEmail(input: $input){
@@ -730,8 +756,6 @@ mutation registerByEmail($input: RegisterByEmailInput!){
             jobTitle
             googleSsoOnly
             samlSsoOnly
-            createdAt
-            updatedAt
         }
         visit{
             id
@@ -764,8 +788,6 @@ mutation loginByEmail($input: LoginByEmailInput!){
             jobTitle
             googleSsoOnly
             samlSsoOnly
-            createdAt
-            updatedAt
         }
         visit{
             id
@@ -802,8 +824,6 @@ mutation addMember($input: AddMemberInput!){
             jobTitle
             googleSsoOnly
             samlSsoOnly
-            createdAt
-            updatedAt
         }
         role{
             id
@@ -1597,8 +1617,6 @@ mutation updateUser($input: UpdateUserInput!){
         jobTitle
         googleSsoOnly
         samlSsoOnly
-        createdAt
-        updatedAt
     }
 }
 `;
