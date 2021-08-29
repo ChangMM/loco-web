@@ -10,7 +10,7 @@ interface Values {
 }
 
 export function ThirdPartyLogin() {
-  const clientId = '4909444917febd04be0b'
+  const clientId = process.env.NEXT_PUBLIC_CLIENT_ID
   const redirectUri = process.env.NEXT_PUBLIC_API_HOST
   const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`
 
