@@ -4,7 +4,7 @@ import { parse } from 'qs'
 import { useToken } from '@stores/token.store'
 import { useUser } from '@stores/user.store'
 import { Box } from '@fower/react'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useVisit } from '@stores/visit.store'
 
@@ -16,7 +16,7 @@ export default function Redirect() {
   const { setVisit } = useVisit()
   const { push } = useRouter()
 
-  async function login() {
+  const login = useCallback(async () => {
     const code = parse(location.search.replace(/^\?/, '')).code as string
     try {
       const { user, token, visit } = await request('/api/login-by-github', {
@@ -29,15 +29,15 @@ export default function Redirect() {
       setVisit(visit)
 
       push(`/t/${visit.teamId}?tableId=${visit.tableId}&viewId=${visit.viewId}`)
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error?.message || '登录失败')
-      router.push('/')
+      push('/')
     }
-  }
+  }, [push, setToken, setUser, setVisit])
 
   useEffect(() => {
     login()
-  }, [])
+  }, [login])
 
   return (
     <Box>
