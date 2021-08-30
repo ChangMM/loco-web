@@ -9,6 +9,7 @@ const Item = styled('span', ['p-10', 'textLG'])
 const Image = styled('img', ['w-120', 'p-10'])
 
 export default function PageHome() {
+  console.log('==process.env:', process.env.NODE_ENV)
   return (
     <Box>
       <HomeNav />

@@ -4,14 +4,13 @@ import { Divider, DividerTitle } from '@bone-ui/divider'
 import { IconGoggle } from '@components/icons/IconGoggle'
 import { IconGithub } from '@components/icons/IconGithub'
 
-interface Values {
-  email: string
-  password: string
-}
-
 export function ThirdPartyLogin() {
   const clientId = process.env.NEXT_PUBLIC_CLIENT_ID
-  const redirectUri = process.env.NEXT_PUBLIC_API_HOST
+
+  const HOST =
+    process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://1.14.165.196:3000'
+  const redirectUri = `${HOST}/api/auth/callback/github`
+
   const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`
 
   return (
