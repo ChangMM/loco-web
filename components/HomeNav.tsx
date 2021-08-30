@@ -26,7 +26,7 @@ export const HomeNav = () => {
           <Box spaceX-12 ml-20>
             <LinkItem href="/">首页</LinkItem>
             <LinkItem href="/">帮助</LinkItem>
-            <LinkItem href="/">反馈</LinkItem>
+            <LinkItem href="/feedback">反馈</LinkItem>
             <LinkItem href="/about">关于</LinkItem>
           </Box>
         </Box>
