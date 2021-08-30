@@ -13,7 +13,7 @@ COPY . .
 
 RUN npm run build
 
-COPY . .
+#COPY . .
 
 EXPOSE 3000
 

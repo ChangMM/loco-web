@@ -21,7 +21,6 @@ export default function PageHome() {
           <Box toCenter>
             <Item># Localization</Item>
             <Item># Developer</Item>
-            <Item># PM</Item>
             <Item># Translator</Item>
           </Box>
           <Box>
