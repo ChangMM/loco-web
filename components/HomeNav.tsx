@@ -7,7 +7,7 @@ import { Logo } from './Logo'
 import { LoginButton } from './LoginButton'
 import { modalService } from '@generated/modalService'
 
-const LinkItem = styled('a', ['textBase', 'py1'], {
+const LinkItem = styled(Link, ['textBase', 'py1'], {
   color: ' #666',
   textDecoration: 'none',
   // transition: color 0.2s ease 0s;
@@ -24,10 +24,10 @@ export const HomeNav = () => {
         <Box toCenterY>
           <Logo></Logo>
           <Box spaceX-12 ml-20>
-            <LinkItem>首页</LinkItem>
-            <LinkItem>帮助</LinkItem>
-            <LinkItem>反馈</LinkItem>
-            <LinkItem>关于</LinkItem>
+            <LinkItem href="/">首页</LinkItem>
+            <LinkItem href="/">帮助</LinkItem>
+            <LinkItem href="/">反馈</LinkItem>
+            <LinkItem href="/about">关于</LinkItem>
           </Box>
         </Box>
         {user && <AvatarWithMenu></AvatarWithMenu>}
